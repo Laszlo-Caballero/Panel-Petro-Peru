@@ -9,6 +9,6 @@ package Clases;
  * @author Pruebas
  */
 public class Dependiente {
-     private string nombre;
+     private String nombre;
      private int dni;
 }
