@@ -4,7 +4,7 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 import Database.Database;
-public class Empelado {
+public class Empleado {
     private int id;
     private String nombre;
     private String apellido;
@@ -13,7 +13,7 @@ public class Empelado {
     private int dni;
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
-    public Empelado(int _id, String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
+    public Empleado(int _id, String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
         this.id = _id;
         this.nombre = _nombre;
         this.apellido = _apellido;
@@ -21,7 +21,7 @@ public class Empelado {
         this.contraseña = _contraseña;
         this.dni = _dni;
     }
-    public Empelado(String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
+    public Empleado(String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.usuario = _usuario;

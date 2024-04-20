@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import Clases.Empelado;
+import Clases.Empleado;
 
 /**
  *
@@ -53,7 +53,7 @@ public class Crud {
             return null;
         }
     }
-    public void InsertData(Empelado nuevo){
+    public void InsertData(Empleado nuevo){
         String consuta = "Insert into Empelados (nombre, apellido, usuario, contraseña, dni) values (?, ?, ?, ?, ?)";
         try {
             PreparedStatement prepared = sql.prepareStatement(consuta);
