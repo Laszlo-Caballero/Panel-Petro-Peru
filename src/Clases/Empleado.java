@@ -84,6 +84,6 @@ public class Empleado {
         }
     }
     public void AddSegure(){
-        //agregar
+        //TODO
     }
 }
