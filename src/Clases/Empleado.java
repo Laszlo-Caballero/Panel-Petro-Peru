@@ -83,4 +83,7 @@ public class Empleado {
             JOptionPane.showConfirmDialog(null, "Error al buscar usuario");
         }
     }
+    public void AddSegure(){
+        //TODO
+    }
 }
