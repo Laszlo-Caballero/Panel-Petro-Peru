@@ -4,6 +4,8 @@
  */
 package Clases;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Pruebas
@@ -11,4 +13,6 @@ package Clases;
 public class Dependiente {
      private String nombre;
      private int dni;
+     private LocalDate cumpleaños;
+     private Boolean universidad;
 }

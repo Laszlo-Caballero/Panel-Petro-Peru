@@ -1,16 +1,22 @@
 package Clases;
 import java.sql.*;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import Database.Database;
 public class Empleado {
     private int id;
-    private String nombre;
-    private String apellido;
     private String usuario;
     private String contraseña;
+    private String nombre;
+    private String apellido;
     private int dni;
+    private Direccion direccion;
+    private String correo;
+    private int telefono;
+    private List<Dependiente> familia;
+    private Departamento departamento;
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
     public Empleado(int _id, String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
@@ -82,8 +88,5 @@ public class Empleado {
         } catch (SQLException e) {
             JOptionPane.showConfirmDialog(null, "Error al buscar usuario");
         }
-    }
-    public void AddSegure(){
-        //agregar
     }
 }
