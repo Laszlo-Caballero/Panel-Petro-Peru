@@ -8,6 +8,4 @@ public class Ausencia {
     private LocalDate fin;
     private Boolean pagado;
     private int acumulacion;
-    private int dias;
-    private String motivo;
 }

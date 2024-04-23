@@ -7,5 +7,5 @@ public class Asistencia {
     private Boolean asistencia;
     private Boolean tardanza;
     private Ausencia falta;
-    private LocalDate fecha;
+   
 }
