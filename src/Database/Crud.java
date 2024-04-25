@@ -59,8 +59,6 @@ public class Crud {
             PreparedStatement prepared = sql.prepareStatement(consuta);
             prepared.setString(1, nuevo.getNombre());
             prepared.setString(2, nuevo.getApellido());
-            prepared.setString(3, nuevo.getUsuario());
-            prepared.setString(4, nuevo.getContraseña());
             prepared.setInt(5, nuevo.getDni());
             int insertRows = prepared.executeUpdate();
             String resultado = insertRows > 0 ? "Se inserto Correctamente" : "No se pudo insertar";
