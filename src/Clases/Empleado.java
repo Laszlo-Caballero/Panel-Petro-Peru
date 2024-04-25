@@ -7,8 +7,7 @@ import javax.swing.JOptionPane;
 import Database.Database;
 public class Empleado {
     private int id;
-    private String usuario;
-    private String contraseña;
+    private Usuario usuario;
     private String nombre;
     private String apellido;
     private int dni;
@@ -19,19 +18,17 @@ public class Empleado {
     private Departamento departamento;
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
-    public Empleado(int _id, String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
+    public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni){
         this.id = _id;
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.usuario = _usuario;
-        this.contraseña = _contraseña;
         this.dni = _dni;
     }
-    public Empleado(String _nombre, String _apellido, String _usuario, String _contraseña, int _dni){
+    public Empleado(String _nombre, String _apellido, Usuario _usuario, int _dni){
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.usuario = _usuario;
-        this.contraseña = _contraseña;
         this.dni = _dni;
     }
     public int getId(){
@@ -51,18 +48,6 @@ public class Empleado {
     }
     public void setApellido(String _apellido){
         this.apellido = _apellido;
-    }
-    public String getUsuario(){
-        return usuario;
-    }
-    public void setUsuario(String _usuario){
-        this.usuario = _usuario;
-    }
-    public String getContraseña(){
-        return contraseña;
-    }
-    public void setContraseña(String _contraseña){
-        this.contraseña = _contraseña;
     }
     public int getDni(){
         return dni;
