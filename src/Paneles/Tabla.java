@@ -5,8 +5,6 @@
 package Paneles;
 
 import java.sql.ResultSet;
-
-import Database.Crud;
 import Funciones.FTable;
 
 /**
@@ -19,11 +17,11 @@ public class Tabla extends javax.swing.JPanel {
      * Creates new form Tabla
      */
     FTable Ftable = new FTable();
-    Crud crud = new Crud();
+    //Crud crud = new Crud();
     public Tabla() {
         initComponents();
-        ResultSet data = crud.SelectAll("Empleados");
-        Ftable.InsertarDatos(Datos, data);
+        //ResultSet data = crud.SelectAll("Empleados");
+        //Ftable.InsertarDatos(Datos, null);
     }
 
     /**

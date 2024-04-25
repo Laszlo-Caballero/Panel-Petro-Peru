@@ -8,7 +8,6 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Database.Crud;
 import Funciones.Pages;
 /**
  *
@@ -19,7 +18,7 @@ public class Login extends javax.swing.JPanel {
     /**
      * Creates new form Login
      */
-    Crud crud = new Crud();
+    //Crud crud = new Crud();
     Pages pages = new Pages();
     JPanel main;
     MainPanel mainPanel = new MainPanel();
@@ -215,7 +214,7 @@ public class Login extends javax.swing.JPanel {
 
     private void btnIngresarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMousePressed
         if(!txtUsuario.getText().equals("Ingrese su usuario") && !String.valueOf(txtPassword.getPassword()).equals("****************")){
-            Boolean resultado = crud.findUser(txtUsuario.getText(), String.valueOf(txtPassword.getPassword()));
+            Boolean resultado = true; //crud.findUser(txtUsuario.getText(), String.valueOf(txtPassword.getPassword()));
             if(resultado){
                 pages.ViewPages(mainPanel, bg);
             }else{
