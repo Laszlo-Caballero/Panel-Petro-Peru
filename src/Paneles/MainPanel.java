@@ -18,6 +18,7 @@ public class MainPanel extends javax.swing.JPanel {
      */
     Pages pages = new Pages();
     Tabla Ptabla = new Tabla();
+    Registro Pregistro = new Registro();
     public MainPanel() {
         initComponents();
     }
@@ -46,13 +47,16 @@ public class MainPanel extends javax.swing.JPanel {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_pp.png"))); // NOI18N
 
         btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home.png"))); // NOI18N
-        btnHome.setBackground(Color.WHITE);
         btnHome.setText("Home");
         btnHome.setBorder(null);
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
+            }
+        });
 
-        btnTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/tabla.png"))); // NOI18N
-        btnTabla.setText("Tabla");
-        btnTabla.setBackground(Color.WHITE);
+        btnTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Empleado.png"))); // NOI18N
+        btnTabla.setText("Empleados");
         btnTabla.setBorder(null);
         btnTabla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,12 +68,12 @@ public class MainPanel extends javax.swing.JPanel {
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NavBarLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel1)
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
             .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(NavBarLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,7 +93,7 @@ public class MainPanel extends javax.swing.JPanel {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGap(0, 778, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,6 +121,10 @@ public class MainPanel extends javax.swing.JPanel {
     private void btnTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablaActionPerformed
         pages.ViewPages(Ptabla, bg);
     }//GEN-LAST:event_btnTablaActionPerformed
+
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
+        pages.ViewPages(Pregistro, bg);
+    }//GEN-LAST:event_btnHomeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
