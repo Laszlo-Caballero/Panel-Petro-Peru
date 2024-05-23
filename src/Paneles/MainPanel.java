@@ -57,7 +57,6 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        btnTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Empleado.png"))); // NOI18N
         btnTabla.setText("Empleados");
         btnTabla.setBorder(null);
         btnTabla.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +65,6 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lista-de-verificacion.png"))); // NOI18N
         btnAsistencia.setText("Asistencia");
         btnAsistencia.setBorder(null);
         btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
@@ -79,13 +77,13 @@ public class MainPanel extends javax.swing.JPanel {
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(NavBarLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,7 +105,7 @@ public class MainPanel extends javax.swing.JPanel {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 766, Short.MAX_VALUE)
+            .addGap(0, 733, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
