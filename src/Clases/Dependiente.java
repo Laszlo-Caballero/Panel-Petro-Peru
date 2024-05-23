@@ -5,6 +5,7 @@
 package Clases;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 /**
  *
@@ -13,6 +14,13 @@ import java.time.LocalDate;
 public class Dependiente {
      private String nombre;
      private int dni;
-     private LocalDate cumpleaños;
+     private LocalDate FechaNacimiento;
      private Boolean universidad;
+
+
+     public Boolean CalcularEdad(LocalDate fecha){
+          LocalDate fechaActual = LocalDate.now();
+          int edad = Period.between(fecha, fechaActual).getYears();
+          return edad <=23 && edad >=16;
+     }
 }

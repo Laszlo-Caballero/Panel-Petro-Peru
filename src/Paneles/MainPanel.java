@@ -19,6 +19,7 @@ public class MainPanel extends javax.swing.JPanel {
     Pages pages = new Pages();
     Tabla Ptabla = new Tabla();
     Registro Pregistro = new Registro();
+    Asistencia asistencia = new Asistencia();
     public MainPanel() {
         initComponents();
     }
@@ -36,6 +37,7 @@ public class MainPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnHome = new javax.swing.JButton();
         btnTabla = new javax.swing.JButton();
+        btnAsistencia = new javax.swing.JButton();
         bg = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -64,16 +66,26 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lista-de-verificacion.png"))); // NOI18N
+        btnAsistencia.setText("Asistencia");
+        btnAsistencia.setBorder(null);
+        btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsistenciaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NavBarLayout = new javax.swing.GroupLayout(NavBar);
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+            .addComponent(btnTabla, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
             .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(NavBarLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,7 +96,9 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(582, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(512, Short.MAX_VALUE))
         );
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
@@ -93,7 +107,7 @@ public class MainPanel extends javax.swing.JPanel {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 778, Short.MAX_VALUE)
+            .addGap(0, 766, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,10 +140,15 @@ public class MainPanel extends javax.swing.JPanel {
         pages.ViewPages(Pregistro, bg);
     }//GEN-LAST:event_btnHomeActionPerformed
 
+    private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
+        pages.ViewPages(asistencia, bg);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAsistenciaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel NavBar;
     private javax.swing.JPanel bg;
+    private javax.swing.JButton btnAsistencia;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnTabla;
     private javax.swing.JLabel jLabel1;
