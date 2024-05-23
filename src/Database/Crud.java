@@ -58,7 +58,7 @@ public class Crud {
             PreparedStatement statement = sql.prepareStatement(query);
             if(parametros.length > 0){
                 for(int i = 0; i < parametros.length; i++){
-                    statement.setString(i, parametros[i]);
+                    statement.setString(i +1, parametros[i]);
                 }
             }
             ResultSet resultado = statement.executeQuery(query);
