@@ -135,7 +135,7 @@ public class Dependiente extends javax.swing.JFrame {
 
     private void bttnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegistrarActionPerformed
         // TODO add your handling code here:
-        dispose();
+        dispose(); 
     }//GEN-LAST:event_bttnRegistrarActionPerformed
 
     /**
