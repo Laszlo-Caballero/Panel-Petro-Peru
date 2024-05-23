@@ -13,7 +13,9 @@ import javax.swing.JPanel;
  */
 public class Pages {
         public void ViewPages(JPanel page, JPanel content){
-        page.setSize(1000, 840);
+        int width = (int) Math.floor(content.getSize().getWidth());
+        int height = (int) Math.floor(content.getSize().getHeight());
+        page.setSize(width, height);
         page.setLocation(0, 0);
 
         content.removeAll();
