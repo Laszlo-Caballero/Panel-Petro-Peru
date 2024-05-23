@@ -38,7 +38,7 @@ public class Dependiente extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         bttnRegistrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
