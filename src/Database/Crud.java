@@ -53,6 +53,21 @@ public class Crud {
             return null;
         }
     }
+    public ResultSet SelectCondition(String query, String[] parametros){
+        try {
+            PreparedStatement statement = sql.prepareStatement(query);
+            if(parametros.length > 0){
+                for(int i = 0; i < parametros.length; i++){
+                    statement.setString(i, parametros[i]);
+                }
+            }
+            ResultSet resultado = statement.executeQuery(query);
+            return resultado;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+            return null;
+        }
+    }
     public void InsertData(Empleado nuevo){
         String consuta = "Insert into Empelados (nombre, apellido, usuario, contraseña, dni) values (?, ?, ?, ?, ?)";
         try {
