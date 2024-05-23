@@ -61,7 +61,7 @@ public class Crud {
                     statement.setString(i +1, parametros[i]);
                 }
             }
-            ResultSet resultado = statement.executeQuery(query);
+            ResultSet resultado = statement.executeQuery();
             return resultado;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
@@ -69,7 +69,7 @@ public class Crud {
         }
     }
     public void InsertData(Empleado nuevo){
-        String consuta = "Insert into Empelados (nombre, apellido, usuario, contraseña, dni) values (?, ?, ?, ?, ?)";
+        String consuta = "Insert into Emplelados (nombre, apellido, usuario, contraseña, dni) values (?, ?, ?, ?, ?)";
         try {
             PreparedStatement prepared = sql.prepareStatement(consuta);
             prepared.setString(1, nuevo.getNombre());

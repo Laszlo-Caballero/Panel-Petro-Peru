@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  * @author laszlo
  */
 public class Database {
-    private String url = "jdbc:sqlserver://localhost:1433;database=prueba;encrypt=false;";
+    private String url = "jdbc:sqlserver://localhost:1433;database=planilla_db;encrypt=false;";
     private String user = "usersql";
     private String password = "root";
 

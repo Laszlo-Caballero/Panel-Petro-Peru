@@ -48,8 +48,8 @@ public class MainPanel extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logo_pp.png"))); // NOI18N
 
-        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/home.png"))); // NOI18N
-        btnHome.setText("Home");
+        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Empleado.png"))); // NOI18N
+        btnHome.setText("Registrar Empleado");
         btnHome.setBorder(null);
         btnHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -57,6 +57,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        btnTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/usuario.png"))); // NOI18N
         btnTabla.setText("Empleados");
         btnTabla.setBorder(null);
         btnTabla.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +66,7 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        btnAsistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lista-de-verificacion.png"))); // NOI18N
         btnAsistencia.setText("Asistencia");
         btnAsistencia.setBorder(null);
         btnAsistencia.addActionListener(new java.awt.event.ActionListener() {
