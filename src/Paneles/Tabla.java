@@ -5,6 +5,8 @@
 package Paneles;
 
 import java.sql.ResultSet;
+
+import Database.Crud;
 import Funciones.FTable;
 
 /**
@@ -17,11 +19,12 @@ public class Tabla extends javax.swing.JPanel {
      * Creates new form Tabla
      */
     FTable Ftable = new FTable();
-    //Crud crud = new Crud();
+    Crud crud = new Crud();
     public Tabla() {
         initComponents();
-        //ResultSet data = crud.SelectAll("Empleados");
-        //Ftable.InsertarDatos(Datos, null);
+        String[] parametros = {};
+        ResultSet data = crud.SelectCondition("Select Empleado.idEmpleado, Empleado.nombre, Empleado.apellido_Parterno + Empleado.apellido_Materno AS Apellidos, Empleado.dni, Empleado.telefono, Usuario.email, Direccion.TipoVia + Direccion.Nombre + CAST(DireccionEmpleado.Numero as varchar) AS Dirrecion from Empleado Join AsignacionUsuario on Empleado.idEmpleado = AsignacionUsuario.idUsuario Join Usuario on AsignacionUsuario.idUsuario = Usuario.idUsuario and AsignacionUsuario.idEmpleado = Empleado.idEmpleado Join DireccionEmpleado on DireccionEmpleado.idEmpleado = Empleado.idEmpleado Join Direccion on Direccion.idDireccion= DireccionEmpleado.idDireccion", parametros);
+        Ftable.InsertarDatos(Datos, data);
     }
 
     /**
@@ -41,17 +44,17 @@ public class Tabla extends javax.swing.JPanel {
 
         Datos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "id", "nombre", "apellido", "usuario", "dni"
+                "ID", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Dirrecion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -65,7 +68,7 @@ public class Tabla extends javax.swing.JPanel {
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 929, Short.MAX_VALUE)
                 .addContainerGap())
         );
         bgLayout.setVerticalGroup(

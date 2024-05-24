@@ -24,21 +24,19 @@ public class FAsistencia {
         //DayOfWeek dayOfWeek = today.getDayOfWeek();
         //String dayName = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
         //String currentTime = LocalTime.now().toString();
-        //String[] parametros = {dayName, currentTime};
+        //String[] parametros = {Character.toUpperCase(dayName.charAt(0)) + dayName.substring(1), currentTime};
         String[] parametros = {"Lunes", "13:00"};
         Usuarios = crud.SelectCondition(query, parametros);
     }
     public void RegAsistencia(JPanel bg){
-        System.out.println(Usuarios);
         try {
           int aux = 0;
-          while (Usuarios.next()){
+          while (Usuarios.next()) {
             String nombre = Usuarios.getString(1) + Usuarios.getString(2) + Usuarios.getString(3);
-            CAsistencia nuevo = new CAsistencia(nombre);
-            System.out.println(nombre);
-            pages.ViewPages(nuevo, bg);
-        }
-            
+            CAsistencia nuevo = new CAsistencia(nombre.replaceAll("\\s+", " "));
+            pages.ViewComponent(nuevo, bg, aux);
+            aux += nuevo.getHeight();
+            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }

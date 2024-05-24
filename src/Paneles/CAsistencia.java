@@ -15,7 +15,7 @@ public class CAsistencia extends javax.swing.JPanel {
      */
     public CAsistencia(String Nombre) {
         initComponents();
-        System.out.println("hola");
+        System.out.println(Nombre);
         LBNombre.setText(Nombre);
     }
 
@@ -34,6 +34,8 @@ public class CAsistencia extends javax.swing.JPanel {
         RTardanza = new javax.swing.JRadioButton();
         RFalta = new javax.swing.JRadioButton();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         LBNombre.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
         LBNombre.setText("Nombre");
 
@@ -51,26 +53,26 @@ public class CAsistencia extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(LBNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
+                .addContainerGap()
+                .addComponent(LBNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RAsistio)
-                .addGap(42, 42, 42)
+                .addGap(43, 43, 43)
                 .addComponent(RTardanza)
-                .addGap(41, 41, 41)
+                .addGap(35, 35, 35)
                 .addComponent(RFalta)
-                .addContainerGap(435, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LBNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RAsistio)
                     .addComponent(RTardanza)
-                    .addComponent(RFalta))
-                .addContainerGap(48, Short.MAX_VALUE))
+                    .addComponent(RAsistio)
+                    .addComponent(RFalta)
+                    .addComponent(LBNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
