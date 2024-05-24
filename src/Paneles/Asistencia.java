@@ -18,8 +18,8 @@ public class Asistencia extends javax.swing.JPanel {
     
     public Asistencia() {
         initComponents();
-        FAsistencia fAsistencia = new FAsistencia();
-        fAsistencia.RegAsistencia(MainPanel);
+        //FAsistencia fAsistencia = new FAsistencia();
+        //fAsistencia.RegAsistencia(MainPanel);
     }
 
     /**
