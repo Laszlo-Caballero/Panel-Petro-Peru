@@ -5,6 +5,11 @@
     <Component class="javax.swing.ButtonGroup" name="Grupo1">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+    </Property>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -21,29 +26,29 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
-              <Component id="LBNombre" min="-2" pref="84" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="LBNombre" min="-2" pref="226" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="RAsistio" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Component id="RTardanza" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Component id="RFalta" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="435" max="32767" attributes="0"/>
+              <EmptySpace pref="441" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="LBNombre" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="RAsistio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RTardanza" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RAsistio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RFalta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LBNombre" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="48" max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

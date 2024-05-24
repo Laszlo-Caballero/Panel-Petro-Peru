@@ -18,8 +18,8 @@ public class Asistencia extends javax.swing.JPanel {
     
     public Asistencia() {
         initComponents();
-        //FAsistencia fAsistencia = new FAsistencia();
-        //fAsistencia.RegAsistencia(MainPanel);
+        FAsistencia fAsistencia = new FAsistencia();
+        fAsistencia.RegAsistencia(MainPanel);
     }
 
     /**
@@ -38,17 +38,6 @@ public class Asistencia extends javax.swing.JPanel {
 
         MainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout MainPanelLayout = new javax.swing.GroupLayout(MainPanel);
-        MainPanel.setLayout(MainPanelLayout);
-        MainPanelLayout.setHorizontalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 936, Short.MAX_VALUE)
-        );
-        MainPanelLayout.setVerticalGroup(
-            MainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1110, Short.MAX_VALUE)
-        );
-
         jLabel1.setFont(new java.awt.Font("Roboto Medium", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Registrar Asistencia");
@@ -60,7 +49,7 @@ public class Asistencia extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(696, Short.MAX_VALUE))
             .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -69,7 +58,7 @@ public class Asistencia extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(MainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1110, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

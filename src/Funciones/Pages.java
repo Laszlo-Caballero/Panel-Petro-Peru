@@ -5,6 +5,8 @@
 package Funciones;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import javax.swing.JPanel;
 
 /**
@@ -27,7 +29,7 @@ public class Pages {
         int height = (int) Math.floor(component.getSize().getHeight());
         component.setSize(width, height);
         component.setLocation(0, 0);
-        content.add(component,BorderLayout.CENTER);
+        content.add(component, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
     }

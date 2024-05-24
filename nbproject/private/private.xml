@@ -3,11 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/LUCIANA/Desktop/java/Panel-Petro-Peru/src/Funciones/FTable.java</file>
             <file>file:/C:/Users/LUCIANA/Desktop/java/Panel-Petro-Peru/src/Funciones/Pages.java</file>
             <file>file:/C:/Users/LUCIANA/Desktop/java/Panel-Petro-Peru/src/Paneles/Actualizar.java</file>
             <file>file:/C:/Users/LUCIANA/Desktop/java/Panel-Petro-Peru/src/Paneles/MainPanel.java</file>
             <file>file:/C:/Users/LUCIANA/Desktop/java/Panel-Petro-Peru/src/Paneles/Login.java</file>
+=======
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/MainPanel.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Registro.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Tabla.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Main.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/CAsistencia.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Dependiente.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Login.java</file>
+>>>>>>> 56bfa6fe76cce6a9f522d2ad9553365cdc01197f
         </group>
     </open-files>
 </project-private>
