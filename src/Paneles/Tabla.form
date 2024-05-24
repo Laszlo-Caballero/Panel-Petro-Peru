@@ -59,7 +59,7 @@
             <Component class="javax.swing.JTable" name="Datos">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="4">
+                  <Table columnCount="8" rowCount="4">
                     <Column editable="true" title="ID" type="java.lang.Integer"/>
                     <Column editable="true" title="Nombre" type="java.lang.String"/>
                     <Column editable="true" title="Apellidos" type="java.lang.String"/>
@@ -67,9 +67,16 @@
                     <Column editable="true" title="Telefono" type="java.lang.String"/>
                     <Column editable="true" title="Email" type="java.lang.String"/>
                     <Column editable="true" title="Dirrecion" type="java.lang.String"/>
+                    <Column editable="true" title="Ver Dependientes" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="DatosMouseClicked"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="Datos = new javax.swing.JTable(){&#xa;public boolean isCellEditable(int row, int column){&#xa;return false;&#xa;}&#xa;};"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

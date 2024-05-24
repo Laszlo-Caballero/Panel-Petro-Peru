@@ -6,6 +6,10 @@ package Paneles;
 
 import java.sql.ResultSet;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
 import Database.Crud;
 import Funciones.FTable;
 
@@ -20,11 +24,14 @@ public class Tabla extends javax.swing.JPanel {
      */
     FTable Ftable = new FTable();
     Crud crud = new Crud();
+    int columna, row;
     public Tabla() {
         initComponents();
         String[] parametros = {};
         ResultSet data = crud.SelectCondition("Select Empleado.idEmpleado, Empleado.nombre, Empleado.apellido_Parterno + Empleado.apellido_Materno AS Apellidos, Empleado.dni, Empleado.telefono, Usuario.email, Direccion.TipoVia + Direccion.Nombre + CAST(DireccionEmpleado.Numero as varchar) AS Dirrecion from Empleado Join AsignacionUsuario on Empleado.idEmpleado = AsignacionUsuario.idUsuario Join Usuario on AsignacionUsuario.idUsuario = Usuario.idUsuario and AsignacionUsuario.idEmpleado = Empleado.idEmpleado Join DireccionEmpleado on DireccionEmpleado.idEmpleado = Empleado.idEmpleado Join Direccion on Direccion.idDireccion= DireccionEmpleado.idDireccion", parametros);
-        Ftable.InsertarDatos(Datos, data);
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        JButton[] botones = {BtnDependiente};
+        Ftable.InsertarDatos(Datos, data, botones);
     }
 
     /**
@@ -42,23 +49,33 @@ public class Tabla extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
 
+        Datos = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         Datos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Dirrecion"
+                "ID", "Nombre", "Apellidos", "DNI", "Telefono", "Email", "Dirrecion", "Ver Dependientes"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        Datos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DatosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(Datos);
@@ -87,6 +104,11 @@ public class Tabla extends javax.swing.JPanel {
             .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DatosMouseClicked
+        columna = Datos.getColumnModel().getColumnIndexAtX(evt.getX());
+        row = evt.getY()/Datos.getRowHeight();
+    }//GEN-LAST:event_DatosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
