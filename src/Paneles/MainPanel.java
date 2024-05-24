@@ -19,6 +19,7 @@ public class MainPanel extends javax.swing.JPanel {
     Pages pages = new Pages();
     Tabla Ptabla = new Tabla();
     Registro Pregistro = new Registro();
+    Actualizar Pactualizacion = new Actualizar();
     Asistencia asistencia = new Asistencia();
     public MainPanel() {
         initComponents();
@@ -38,6 +39,7 @@ public class MainPanel extends javax.swing.JPanel {
         btnHome = new javax.swing.JButton();
         btnTabla = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
+        btnActualizacion = new javax.swing.JButton();
         bg = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -75,6 +77,15 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        btnActualizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lista-de-verificacion.png"))); // NOI18N
+        btnActualizacion.setText("Actualizacion");
+        btnActualizacion.setBorder(null);
+        btnActualizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NavBarLayout = new javax.swing.GroupLayout(NavBar);
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
@@ -85,7 +96,12 @@ public class MainPanel extends javax.swing.JPanel {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
                 .addContainerGap(74, Short.MAX_VALUE))
-            .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(NavBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnActualizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         NavBarLayout.setVerticalGroup(
             NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,9 +112,11 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addComponent(btnAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(512, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(426, Short.MAX_VALUE))
         );
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
@@ -107,7 +125,7 @@ public class MainPanel extends javax.swing.JPanel {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 935, Short.MAX_VALUE)
+            .addGap(0, 735, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,10 +164,16 @@ public class MainPanel extends javax.swing.JPanel {
         pages.ViewPages(asistencia, bg);        // TODO add your handling code here:
     }//GEN-LAST:event_btnAsistenciaActionPerformed
 
+    private void btnActualizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizacionActionPerformed
+        // TODO add your handling code here:
+        pages.ViewPages(Pactualizacion, bg);
+    }//GEN-LAST:event_btnActualizacionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel NavBar;
     private javax.swing.JPanel bg;
+    private javax.swing.JButton btnActualizacion;
     private javax.swing.JButton btnAsistencia;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnTabla;
