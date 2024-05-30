@@ -75,7 +75,17 @@ public class CAsistencia extends javax.swing.JPanel {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    public String getAsistencia(){
+        if(RAsistio.isSelected()){
+            return RAsistio.getText();
+        }else if(RTardanza.isSelected()){
+            return RTardanza.getText();
+        }else if(RFalta.isSelected()){
+            return RFalta.getText();
+        }else{
+            return "Ningun Seleccionado";
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Grupo1;
