@@ -4,7 +4,10 @@
  */
 package Paneles;
 
+import javax.swing.JButton;
+
 import Funciones.FAsistencia;
+import java.awt.GridBagConstraints;
 
 /**
  *
@@ -15,11 +18,14 @@ public class Asistencia extends javax.swing.JPanel {
     /**
      * Creates new form Asistencia
      */
-    
+    private JButton enviar = new JButton("Enviar");
+    private CAsistencia[] asistencias;
+    private FAsistencia fAsistencia;
     public Asistencia() {
+        GridBagConstraints gbc = new GridBagConstraints();
         initComponents();
-        FAsistencia fAsistencia = new FAsistencia();
-        fAsistencia.RegAsistencia(MainPanel);
+        fAsistencia = new FAsistencia();
+        fAsistencia.RegAsistencia(MainPanel, enviar);
     }
 
     /**
@@ -32,15 +38,12 @@ public class Asistencia extends javax.swing.JPanel {
     private void initComponents() {
 
         MainPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(51, 51, 51));
 
         MainPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-        MainPanel.add(jButton1);
+        MainPanel.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Roboto Medium", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -72,7 +75,6 @@ public class Asistencia extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
