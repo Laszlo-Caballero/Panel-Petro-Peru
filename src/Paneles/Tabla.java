@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import Database.Crud;
 import Funciones.FTable;
@@ -30,6 +31,7 @@ public class Tabla extends javax.swing.JPanel {
         String[] parametros = {};
         ResultSet data = crud.SelectCondition("Select Empleado.idEmpleado, Empleado.nombre, Empleado.apellido_Parterno + Empleado.apellido_Materno AS Apellidos, Empleado.dni, Empleado.telefono, Usuario.email, Direccion.TipoVia + Direccion.Nombre + CAST(DireccionEmpleado.Numero as varchar) AS Dirrecion from Empleado Join AsignacionUsuario on Empleado.idEmpleado = AsignacionUsuario.idUsuario Join Usuario on AsignacionUsuario.idUsuario = Usuario.idUsuario and AsignacionUsuario.idEmpleado = Empleado.idEmpleado Join DireccionEmpleado on DireccionEmpleado.idEmpleado = Empleado.idEmpleado Join Direccion on Direccion.idDireccion= DireccionEmpleado.idDireccion", parametros);
         JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
         JButton[] botones = {BtnDependiente};
         Ftable.InsertarDatos(Datos, data, botones);
     }
@@ -108,6 +110,20 @@ public class Tabla extends javax.swing.JPanel {
     private void DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DatosMouseClicked
         columna = Datos.getColumnModel().getColumnIndexAtX(evt.getX());
         row = evt.getY()/Datos.getRowHeight();
+        if(columna<=Datos.getColumnCount() && columna >=0 && row <=Datos.getRowCount()&& row>=0){
+            Object objeto = Datos.getValueAt(row, columna);
+            if(objeto instanceof JButton){
+                ((JButton)objeto).doClick();
+                JButton boton = (JButton) objeto;
+                System.out.println(boton.getName());    
+                if(boton.getName() == "btn1"){
+                    Object id = Datos.getValueAt(row, 0);
+                    System.out.println(id.toString());
+                    VerDependiente ver = new VerDependiente(id.toString());
+                    ver.setVisible(true);
+                }
+            }
+        }
     }//GEN-LAST:event_DatosMouseClicked
 
 

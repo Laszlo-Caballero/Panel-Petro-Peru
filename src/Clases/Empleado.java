@@ -74,4 +74,12 @@ public class Empleado {
             JOptionPane.showConfirmDialog(null, "Error al buscar usuario");
         }
     }
+
+    public void Update(String dni){
+        //TODO
+    }
+
+    public void Update(int id){
+        
+    }
 }
