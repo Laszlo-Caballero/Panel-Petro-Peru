@@ -4,6 +4,13 @@
  */
 package Paneles;
 
+import java.sql.ResultSet;
+
+import javax.swing.JTable;
+
+import Database.Crud;
+import Funciones.FTable;
+
 /**
  *
  * @author LUCIANA
@@ -13,8 +20,14 @@ public class Actualizar extends javax.swing.JPanel {
     /**
      * Creates new form Actualizar
      */
+
+    Crud crud = new Crud();
+    FTable ftable = new FTable();
     public Actualizar() {
         initComponents();
+        String parametros[] = {};
+        ResultSet datos = crud.SelectCondition("Select Empleado.nombre, Empleado.apellido_Parterno + Empleado.apellido_Materno AS Apellidos, Empleado.dni, Empleado.telefono, Usuario.email, Direccion.TipoVia + Direccion.Nombre + CAST(DireccionEmpleado.Numero as varchar) AS Dirrecion from Empleado Join AsignacionUsuario on Empleado.idEmpleado = AsignacionUsuario.idUsuario Join Usuario on AsignacionUsuario.idUsuario = Usuario.idUsuario and AsignacionUsuario.idEmpleado = Empleado.idEmpleado Join DireccionEmpleado on DireccionEmpleado.idEmpleado = Empleado.idEmpleado Join Direccion on Direccion.idDireccion= DireccionEmpleado.idDireccion", parametros);
+        ftable.InsertarDatos(tabla, datos);
     }
 
     /**
