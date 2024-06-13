@@ -20,7 +20,8 @@ public class MainPanel extends javax.swing.JPanel {
     Tabla Ptabla = new Tabla();
     Registro Pregistro = new Registro();
     Actualizar Pactualizacion = new Actualizar();
-    Asistencia asistencia = new Asistencia();
+    Asistencia Pasistencia = new Asistencia();
+    BonDes Pbondes = new BonDes();
     public MainPanel() {
         initComponents();
     }
@@ -40,6 +41,7 @@ public class MainPanel extends javax.swing.JPanel {
         btnTabla = new javax.swing.JButton();
         btnAsistencia = new javax.swing.JButton();
         btnActualizacion = new javax.swing.JButton();
+        btnBonDes = new javax.swing.JButton();
         bg = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -86,6 +88,15 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        btnBonDes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dinero.png"))); // NOI18N
+        btnBonDes.setText("BonDes");
+        btnBonDes.setBorder(null);
+        btnBonDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBonDesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout NavBarLayout = new javax.swing.GroupLayout(NavBar);
         NavBar.setLayout(NavBarLayout);
         NavBarLayout.setHorizontalGroup(
@@ -100,7 +111,8 @@ public class MainPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(NavBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnActualizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAsistencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAsistencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBonDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         NavBarLayout.setVerticalGroup(
@@ -116,7 +128,9 @@ public class MainPanel extends javax.swing.JPanel {
                 .addComponent(btnAsistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnActualizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(426, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnBonDes, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(382, Short.MAX_VALUE))
         );
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
@@ -162,7 +176,7 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsistenciaActionPerformed
-        pages.ViewPages(asistencia, bg);        // TODO add your handling code here:
+        pages.ViewPages(Pasistencia, bg);        // TODO add your handling code here:
     }//GEN-LAST:event_btnAsistenciaActionPerformed
 
     private void btnActualizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizacionActionPerformed
@@ -170,12 +184,18 @@ public class MainPanel extends javax.swing.JPanel {
         pages.ViewPages(Pactualizacion, bg);
     }//GEN-LAST:event_btnActualizacionActionPerformed
 
+    private void btnBonDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBonDesActionPerformed
+        // TODO add your handling code here:
+        pages.ViewPages(Pbondes, bg);
+    }//GEN-LAST:event_btnBonDesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel NavBar;
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnActualizacion;
     private javax.swing.JButton btnAsistencia;
+    private javax.swing.JButton btnBonDes;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnTabla;
     private javax.swing.JLabel jLabel1;
