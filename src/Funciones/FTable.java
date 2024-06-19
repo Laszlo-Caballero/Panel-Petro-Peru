@@ -19,16 +19,19 @@ import javax.swing.table.TableColumn;
 
 public class FTable {
     public void InsertarDatos(JTable tabla, ResultSet datos){
-        DefaultTableModel modelo = new DefaultTableModel();;
-        tabla.setModel(modelo);
+        DefaultTableModel modelo = new DefaultTableModel();
         String[] headers = getHeaders(tabla);
-        setHeaders(modelo, headers);
+        tabla.setModel(modelo);
+        for (int i = 0; i < headers.length; i++) {
+            modelo.addColumn(headers[i]);
+        }
+
         try {
           int cantColumn = datos.getMetaData().getColumnCount();
           while (datos.next()) {
             Object arreglo[] = new Object[cantColumn];
             for(int i = 0; i< cantColumn; i++){
-                arreglo[i] = datos.getObject(i + 1).toString().replaceAll("\\s+", " ");
+                arreglo[i] = datos.getObject(i + 1).toString().replaceAll("\s+", " ");
             }
             modelo.addRow(arreglo);
         }
@@ -41,7 +44,9 @@ public class FTable {
         DefaultTableModel modelo = new DefaultTableModel();
         String[] headers = getHeaders(tabla);
         tabla.setModel(modelo);
-        setHeaders(modelo, headers);
+        for (int i = 0; i < headers.length; i++) {
+            modelo.addColumn(headers[i]);
+        }
         try {
             int cantColumn = datos.getMetaData().getColumnCount();
             while (datos.next()) {
@@ -62,7 +67,9 @@ public class FTable {
         DefaultTableModel modelo = new DefaultTableModel();
         tabla.setModel(modelo);
         String[] headers = getHeaders(tabla);
-        setHeaders(modelo, headers);
+        for (int i = 0; i < headers.length; i++) {
+            modelo.addColumn(headers[i]);
+        }
         try {
           int cantColumn = datos.size();
             String arreglo[] = new String[cantColumn];
