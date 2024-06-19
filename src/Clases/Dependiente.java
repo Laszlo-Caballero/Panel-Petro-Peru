@@ -6,18 +6,46 @@ package Clases;
 
 import java.time.LocalDate;
 import java.time.Period;
-
 /**
  *
  * @author Pruebas
  */
 public class Dependiente {
      private String nombre;
-     private int dni;
-     private LocalDate FechaNacimiento;
+     private String dni;
+     private String FechaNacimiento;
      private Boolean universidad;
 
-
+     public Dependiente(String _dni, String _nombre, String _fechaNacimiento, Boolean _universidad){
+          this.dni = _dni;
+          this.nombre = _nombre;
+          this.FechaNacimiento = _fechaNacimiento;
+          this.universidad = _universidad;
+     }
+     public String getDni(){
+          return dni;
+     }
+     public String getNombre(){
+          return nombre;
+     }
+     public String getNacimiento(){
+          return FechaNacimiento;
+     }
+     public Boolean getUniversidad(){
+          return universidad;
+     }
+     public void setDni(String _dni){
+          this.dni = _dni;
+     }
+     public void setNombre(String _nombre){
+          this.nombre = _nombre;
+     }
+     public void setNacimiento(String fecha){
+          this.FechaNacimiento = fecha;
+     }
+     public void setUniversidad(Boolean _universidad){
+          this.universidad = _universidad;
+     }
      public Boolean CalcularEdad(LocalDate fecha){
           LocalDate fechaActual = LocalDate.now();
           int edad = Period.between(fecha, fechaActual).getYears();
