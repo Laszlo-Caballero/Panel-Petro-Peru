@@ -1,4 +1,5 @@
 
+import Funciones.FPdf;
 import Funciones.Pages;
 import Paneles.Login;
 
@@ -17,9 +18,11 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     Pages pages = new Pages();
+    FPdf pdf = new FPdf();
     Login login;
     public Main() {
         initComponents();
+        pdf.generar();
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
     }

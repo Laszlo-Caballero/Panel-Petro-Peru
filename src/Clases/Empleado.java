@@ -12,11 +12,17 @@ public class Empleado {
     private int dni;
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
-    public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni){
+    private String Telefono;
+    private String Dirrecion;
+    private String Correo;
+    public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni, String _Telefono, String _DString, String _CString){
         this.id = _id;
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.dni = _dni;
+        this.Telefono = _Telefono;
+        this.Dirrecion = _DString;
+        this.Correo = _CString;
     }
     public Empleado(String _nombre, String _apellido, Usuario _usuario, int _dni){
         this.nombre = _nombre;
@@ -47,6 +53,24 @@ public class Empleado {
     public void setDni(int _dni){
         this.dni = _dni;
     }
+    public String getTelefono(){
+        return Telefono;
+    }
+    public void setTelefono(String _Telefono){
+        this.Telefono = _Telefono;
+    }
+    public String getDirrecion(){
+        return Dirrecion;
+    }
+    public void setDirrecion(String _DString){
+        this.Dirrecion = _DString;
+    }
+    public String getCorreo(){
+        return Correo;
+    }
+    public void setCorreo(String _CString){
+        this.Correo = _CString;
+    }
     public void FindUser(String user, String password){
         String consulta = "SELECT id, nombre, apellido, usuario, contraseña, dni FROM Empleados WHERE usuario = ?";
         try {
@@ -66,12 +90,54 @@ public class Empleado {
             JOptionPane.showConfirmDialog(null, "Error al buscar usuario");
         }
     }
+    public void FindUser(int id){
+        String consulta = "SELECT id, nombre, apellido, usuario, contraseña, dni FROM Empleados WHERE id = ?";
+        try {
+            PreparedStatement statement = sql.prepareStatement(consulta);
+            statement.setInt(1, id);
+            ResultSet resultado = statement.executeQuery();
 
-    public void Update(String dni){
-        //TODO
+            if(resultado.next()){
+                this.id = resultado.getInt("id");
+                this.nombre = resultado.getString("nombre");
+                this.apellido = resultado.getString("apellido");
+                this.dni = resultado.getInt("dni");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al buscar usuario");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showConfirmDialog(null, "Error al buscar usuario");
+        }
     }
 
-    public void Update(int id){
-        
+
+    public void Update(String dni, Empleado actualizado){
+        String QuerySql = "Update Empleados set Telefono = ?, Dirreccion = ?, Correo = ? where dni = ?";
+        try {
+            PreparedStatement statement = sql.prepareStatement(QuerySql);
+            statement.setString(1, actualizado.Telefono);
+            statement.setString(2, actualizado.Dirrecion);
+            statement.setString(3, actualizado.Correo);
+            statement.setString(4, dni);
+            ResultSet resultado = statement.executeQuery();
+            System.out.println("Se Actualizo");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al Actualizar");
+        }
+    }
+
+    public void Update(int id, Empleado actualizado){
+        String QuerySql = "Update Empleados set Telefono = ?, Dirreccion = ?, Correo = ? where id = ?";
+        try {
+            PreparedStatement statement = sql.prepareStatement(QuerySql);
+            statement.setString(1, actualizado.Telefono);
+            statement.setString(2, actualizado.Dirrecion);
+            statement.setString(3, actualizado.Correo);
+            statement.setInt(4, id);
+            ResultSet resultado = statement.executeQuery();
+            System.out.println("Se Actualizo");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al Actualizar");
+        }
     }
 }
