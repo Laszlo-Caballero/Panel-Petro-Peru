@@ -20,8 +20,8 @@ public class Main extends javax.swing.JFrame {
     Login login;
     public Main() {
         initComponents();
-        login = new Login(bg);
-        pages.ViewPages(login, bg);
+        //login = new Login(bg);
+        //pages.ViewPages(login, bg);
     }
 
     /**
@@ -33,33 +33,18 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
-
-        bg.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1370, Short.MAX_VALUE)
-        );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 840, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 1370, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
 
         pack();
@@ -101,6 +86,5 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bg;
     // End of variables declaration//GEN-END:variables
 }

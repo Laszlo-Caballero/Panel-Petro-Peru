@@ -7,28 +7,20 @@ import javax.swing.JOptionPane;
 import Database.Database;
 public class Empleado {
     private int id;
-    private Usuario usuario;
     private String nombre;
     private String apellido;
     private int dni;
-    private Direccion direccion;
-    private String correo;
-    private int telefono;
-    private List<Dependiente> familia;
-    private Departamento departamento;
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
     public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni){
         this.id = _id;
         this.nombre = _nombre;
         this.apellido = _apellido;
-        this.usuario = _usuario;
         this.dni = _dni;
     }
     public Empleado(String _nombre, String _apellido, Usuario _usuario, int _dni){
         this.nombre = _nombre;
         this.apellido = _apellido;
-        this.usuario = _usuario;
         this.dni = _dni;
     }
     public int getId(){

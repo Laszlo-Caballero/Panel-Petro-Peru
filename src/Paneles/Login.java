@@ -21,7 +21,6 @@ public class Login extends javax.swing.JPanel {
     //Crud crud = new Crud();
     Pages pages = new Pages();
     JPanel main;
-    MainPanel mainPanel = new MainPanel();
     public Login(JPanel bg) {
         initComponents();
         main = bg;
@@ -221,7 +220,7 @@ public class Login extends javax.swing.JPanel {
         if(!txtUsuario.getText().equals("Ingrese su usuario") && !String.valueOf(txtPassword.getPassword()).equals("****************")){
             Boolean resultado = true; //crud.findUser(txtUsuario.getText(), String.valueOf(txtPassword.getPassword()));
             if(resultado){
-                pages.ViewPages(mainPanel, bg);
+                //pages.ViewPages(mainPanel, bg);
             }else{
                 JOptionPane.showMessageDialog(null, "Error al iniciar sesion");
             }
