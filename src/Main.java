@@ -15,7 +15,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     Pages pages = new Pages();
-    FPdf pdf = new FPdf();
+    FPdf pdf = new FPdf("01310691");
     Login login;
     
     Color mouseEnterColor = new Color(0,0,0);
@@ -25,6 +25,7 @@ public class Main extends javax.swing.JFrame {
         pdf.generar();
         this.setUndecorated(true);
         this.setLocationRelativeTo(null);
+        pdf.generar();
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
     }

@@ -23,6 +23,7 @@
     "package/svg-8.0.4.jar",
     "package/log4j-1.2.17.jar",
     "package/slf4j-api-1.7.9.jar",
-    "package/slf4j-log4j12-1.7.9.jar"
+    "package/slf4j-log4j12-1.7.9.jar",
+    "c:\\Program Files\\NetBeans-21\\netbeans\\java\\modules\\ext\\AbsoluteLayout.jar"
   ]
 }

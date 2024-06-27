@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
 
 import Clases.Empleado;
 
@@ -80,6 +82,35 @@ public class Crud {
             JOptionPane.showMessageDialog(null, resultado);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
+
+    public List<String> ConvertResultSet(ResultSet data){
+        try {
+            int cantData = data.getMetaData().getColumnCount();
+            List<String> result = new ArrayList<String>();
+            while (data.next()) {
+                for(int i = 1; i <=cantData; i++){
+                    String string = data.getObject(i).toString();
+                    result.add(string);
+                }
+            }
+            return result;
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            return null;
+        }
+    }
+    public void mostrarResultSet(ResultSet data){
+        try {
+            int cantData = data.getMetaData().getColumnCount();
+            while (data.next()) {
+                for(int i = 1; i <=cantData; i++){
+                    System.out.println(data.getObject(i).toString());
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
         }
     }
 }
