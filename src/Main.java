@@ -1,8 +1,17 @@
 
+import Database.Crud;
 import Funciones.FPdf;
+import Funciones.FTable;
 import Funciones.Pages;
+import Paneles.ActContrato;
+import Paneles.ActEmpleado;
 import Paneles.Login;
 import java.awt.Color;
+import java.sql.ResultSet;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import static picocli.CommandLine.Help.Ansi.Style.bg;
 
 
 /**
@@ -17,16 +26,29 @@ public class Main extends javax.swing.JFrame {
     Pages pages = new Pages();
     FPdf pdf = new FPdf();
     Login login;
+    String ruta_archivo = "";
+    ActEmpleado pEmpleado = new ActEmpleado();
+    ActContrato pContrato = new ActContrato();
+    Crud crud = new Crud();
+    FTable ftable = new FTable();
     
     Color mouseEnterColor = new Color(0,0,0);
     Color mouseExitColor = new Color(51,51,51);
     public Main() {
         initComponents();
         pdf.generar();
-        this.setUndecorated(true);
         this.setLocationRelativeTo(null);
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
+        String parametros[] = {};
+        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
+        ftable.InsertarDatos(tablaEmp, datosE);
+        ResultSet datosC = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado", parametros);
+        ftable.InsertarDatos(tablaC, datosC);
+        ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
+        ftable.InsertarDatos(tablaBonDes, datosBD);
+        ResultSet datosPG = crud.SelectCondition("SELECT E.Nombre, E.ApellidoParterno + ' ' + E.ApellidoMaterno AS Apellidos, E.Dni, D.Nombre AS Departamento, C.Salario,(SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) AS TotalBonificaciones, (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0))  FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS TotalDescuentos, (C.Salario + ( SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) ) - (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0)) FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS PAGO FROM Empleado E inner join Contrato C on C.IdContrato = E.IdContrato inner join Departamento D ON D.IdDepartamento = E.IdDepartamento", parametros);
+        ftable.InsertarDatos(tablaPG, datosPG);
     }
 
 
@@ -60,12 +82,14 @@ public class Main extends javax.swing.JFrame {
         jPanel26 = new javax.swing.JPanel();
         jLabel75 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tablaEmp = new javax.swing.JTable();
         jLabel77 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
         comboBuscarE = new javax.swing.JComboBox<>();
         jLabel84 = new javax.swing.JLabel();
         txtDatoE = new javax.swing.JTextField();
+        btnMostrar = new javax.swing.JButton();
+        btnBuscarE = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -102,35 +126,69 @@ public class Main extends javax.swing.JFrame {
         jPanel24 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel17 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        txtDni = new javax.swing.JTextField();
-        txtEmail = new javax.swing.JTextField();
-        txtTelefonoACT = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
-        comboVia = new javax.swing.JComboBox<>();
-        txtNomVia = new javax.swing.JTextField();
-        txtNumero = new javax.swing.JTextField();
-        txtApellido = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
-        jPanel21 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        bg = new javax.swing.JPanel();
+        comboA = new javax.swing.JComboBox<>();
+        btnSeleccionarAA = new javax.swing.JButton();
+        btnActualizarA = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        txtNombreBD = new javax.swing.JTextField();
+        txtApellidoBD = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel44 = new javax.swing.JLabel();
+        radioNoBD = new javax.swing.JRadioButton();
+        radioSiBD = new javax.swing.JRadioButton();
+        jLabel45 = new javax.swing.JLabel();
+        radioDes = new javax.swing.JRadioButton();
+        radioBon = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaBonDes = new javax.swing.JTable();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        comboBuscarBD = new javax.swing.JComboBox<>();
+        txtDatoBD = new javax.swing.JTextField();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        bttnBuscarBD = new javax.swing.JButton();
+        bttnAsignar = new javax.swing.JButton();
+        btnMostrarBD = new javax.swing.JButton();
         jPanel29 = new javax.swing.JPanel();
         jLabel85 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        txtDatoC = new javax.swing.JTextField();
+        comboBuscarC = new javax.swing.JComboBox<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaC = new javax.swing.JTable();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        jLabel89 = new javax.swing.JLabel();
+        jLabel91 = new javax.swing.JLabel();
+        jLabel93 = new javax.swing.JLabel();
+        jLabel94 = new javax.swing.JLabel();
+        jLabel95 = new javax.swing.JLabel();
+        btnSeleccionarC = new javax.swing.JButton();
+        txtSede = new javax.swing.JTextField();
+        txtNombreC = new javax.swing.JTextField();
+        txtApellidosC = new javax.swing.JTextField();
+        txtDniC = new javax.swing.JTextField();
+        txtDepartamentoC = new javax.swing.JTextField();
+        txtSedeC = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        btnBuscarC = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jLabel56 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
@@ -154,47 +212,13 @@ public class Main extends javax.swing.JFrame {
         jLabel73 = new javax.swing.JLabel();
         jLabel74 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablaE = new javax.swing.JTable();
+        tablaPG = new javax.swing.JTable();
         jLabel76 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
-        jLabel80 = new javax.swing.JLabel();
         comboNomP = new javax.swing.JComboBox<>();
         txtDatoP = new javax.swing.JTextField();
         jLabel81 = new javax.swing.JLabel();
-        jLabel82 = new javax.swing.JLabel();
         jLabel83 = new javax.swing.JLabel();
-        comboPeriodoP = new javax.swing.JComboBox<>();
-        jPanel16 = new javax.swing.JPanel();
-        jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        txtNombreBD = new javax.swing.JTextField();
-        txtApellidoBD = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel44 = new javax.swing.JLabel();
-        radioNoBD = new javax.swing.JRadioButton();
-        radioSiBD = new javax.swing.JRadioButton();
-        jLabel45 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jLabel46 = new javax.swing.JLabel();
-        jLabel47 = new javax.swing.JLabel();
-        comboNomBD = new javax.swing.JComboBox<>();
-        txtDatoBD = new javax.swing.JTextField();
-        jLabel50 = new javax.swing.JLabel();
-        comboPeriodoBD = new javax.swing.JComboBox<>();
-        jPanel25 = new javax.swing.JPanel();
-        jLabel48 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
-        bttnFiltrarBD = new javax.swing.JButton();
-        bttnBuscarBD = new javax.swing.JButton();
-        bttnAsignar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -204,16 +228,16 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 60)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("l");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Petro Peru");
+        jLabel2.setText("Grifo Paijan");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 90));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 60));
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -290,7 +314,7 @@ public class Main extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Opciones");
-        jPanel8.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jPanel8.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jPanel5.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 260, 70));
 
@@ -322,7 +346,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel9.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        jPanel5.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 70));
+        jPanel5.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 260, 70));
 
         jPanel10.setBackground(new java.awt.Color(51, 51, 51));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -355,7 +379,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel10.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        jPanel5.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 260, 70));
+        jPanel5.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 70));
 
         jPanel11.setBackground(new java.awt.Color(51, 51, 51));
         jPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -388,7 +412,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        jPanel5.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 260, 70));
+        jPanel5.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 260, 70));
 
         jPanel12.setBackground(new java.awt.Color(51, 51, 51));
         jPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -421,7 +445,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel12.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
-        jPanel5.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 260, 70));
+        jPanel5.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 260, 70));
 
         jPanel13.setBackground(new java.awt.Color(51, 51, 51));
         jPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -454,7 +478,7 @@ public class Main extends javax.swing.JFrame {
         });
         jPanel13.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 130, -1));
 
-        jPanel5.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 260, 70));
+        jPanel5.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 260, 70));
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 260, 750));
 
@@ -466,18 +490,18 @@ public class Main extends javax.swing.JFrame {
         jLabel75.setText("Empleados");
         jPanel26.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tablaEmp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo", "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Direccion", "Departamento", "Estado"
+                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Direccion", "Departamento"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tablaEmp);
 
         jPanel26.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 900, 220));
 
@@ -491,7 +515,7 @@ public class Main extends javax.swing.JFrame {
         jLabel78.setText("  Buscar por");
         jPanel26.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, 20));
 
-        comboBuscarE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni" }));
+        comboBuscarE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni", "Departamento" }));
         jPanel26.add(comboBuscarE, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 150, 30));
 
         jLabel84.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
@@ -505,6 +529,22 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jPanel26.add(txtDatoE, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, 220, 30));
+
+        btnMostrar.setText("MOSTRAR TODO");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+        jPanel26.add(btnMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 140, 30));
+
+        btnBuscarE.setText("BUSCAR");
+        btnBuscarE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarEActionPerformed(evt);
+            }
+        });
+        jPanel26.add(btnBuscarE, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 70, 80, 30));
 
         jTabbedPane1.addTab("tab5", jPanel26);
 
@@ -726,156 +766,10 @@ public class Main extends javax.swing.JFrame {
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
         jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Dirección"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel17.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 810, 140));
-
         jLabel11.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(204, 0, 51));
-        jLabel11.setText("Actualizar empleados");
-        jPanel17.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel12.setText("Dni");
-        jPanel17.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, -1, 30));
-
-        jLabel14.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("Apellido");
-        jPanel17.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, 30));
-
-        jLabel15.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Información Vivienda");
-        jPanel17.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel16.setText("Numero");
-        jPanel17.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 330, -1, 30));
-
-        jLabel18.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("Tipo Via");
-        jPanel17.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, 30));
-
-        jLabel19.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel19.setText("Nombre");
-        jPanel17.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, -1, 30));
-
-        jLabel20.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel20.setText("Telefono");
-        jPanel17.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, -1, 30));
-
-        txtNombre.setEditable(false);
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, 220, 30));
-
-        txtDni.setEditable(false);
-        txtDni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDniActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 220, 30));
-
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 170, 300, 30));
-
-        txtTelefonoACT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelefonoACTActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtTelefonoACT, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 160, 30));
-
-        jLabel21.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Información Personal");
-        jPanel17.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
-
-        comboVia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avenida", "Calle", "Pasaje" }));
-        jPanel17.add(comboVia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, 170, 30));
-
-        txtNomVia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomViaActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtNomVia, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 160, 30));
-
-        txtNumero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumeroActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtNumero, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 330, 140, 30));
-
-        txtApellido.setEditable(false);
-        txtApellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApellidoActionPerformed(evt);
-            }
-        });
-        jPanel17.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 220, 30));
-
-        jLabel22.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel22.setText("Nombre");
-        jPanel17.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, -1, 30));
-
-        jLabel23.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel23.setText("Email");
-        jPanel17.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 170, -1, 30));
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ActualizarLog.jpg"))); // NOI18N
-        jPanel17.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, -20, -1, -1));
-
-        jPanel18.setBackground(new java.awt.Color(204, 0, 51));
-
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 890, Short.MAX_VALUE)
-        );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-
-        jPanel17.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 890, 40));
+        jLabel11.setText("Actualización");
+        jPanel17.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
         jPanel19.setBackground(new java.awt.Color(204, 0, 51));
 
@@ -907,25 +801,221 @@ public class Main extends javax.swing.JFrame {
 
         jPanel17.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
 
-        jPanel21.setBackground(new java.awt.Color(204, 0, 51));
+        bg.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 890, Short.MAX_VALUE)
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 940, Short.MAX_VALUE)
         );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 560, Short.MAX_VALUE)
         );
 
-        jPanel17.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 890, 40));
+        jPanel17.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 940, 560));
 
-        jButton2.setText("ACTUALIZAR");
-        jPanel17.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 540, 90, 40));
+        comboA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados", "Contratos" }));
+        comboA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAActionPerformed(evt);
+            }
+        });
+        jPanel17.add(comboA, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 180, 30));
+
+        btnSeleccionarAA.setText("SELECCIONAR");
+        btnSeleccionarAA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarAAActionPerformed(evt);
+            }
+        });
+        jPanel17.add(btnSeleccionarAA, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, 120, 30));
+
+        btnActualizarA.setText("ACTUALIZAR");
+        jPanel17.add(btnActualizarA, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 110, 30));
 
         jTabbedPane1.addTab("tab4", jPanel17);
+
+        jPanel16.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel40.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(204, 0, 51));
+        jLabel40.setText("BonDes");
+        jPanel16.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jLabel41.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel41.setText("Agregar un nuevo motivo");
+        jPanel16.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, -1, 30));
+
+        jLabel42.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
+        jPanel16.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, 30));
+
+        jLabel43.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel43.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel43.setText("Apellido");
+        jPanel16.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, 30));
+
+        txtNombreBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreBDActionPerformed(evt);
+            }
+        });
+        jPanel16.add(txtNombreBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 220, 30));
+
+        txtApellidoBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtApellidoBDActionPerformed(evt);
+            }
+        });
+        jPanel16.add(txtApellidoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 220, 30));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel16.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 180, 30));
+
+        jLabel44.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel44.setText("Motivo");
+        jPanel16.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, 30));
+
+        grupoMotivoBD.add(radioNoBD);
+        radioNoBD.setText("No");
+        jPanel16.add(radioNoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, -1, -1));
+
+        grupoMotivoBD.add(radioSiBD);
+        radioSiBD.setText("Si");
+        jPanel16.add(radioSiBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 160, -1, -1));
+
+        jLabel45.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel45.setText("Nombre");
+        jPanel16.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, 30));
+
+        grupoBD.add(radioDes);
+        radioDes.setText("Descuento");
+        radioDes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radioDesMouseClicked(evt);
+            }
+        });
+        radioDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioDesActionPerformed(evt);
+            }
+        });
+        jPanel16.add(radioDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
+
+        grupoBD.add(radioBon);
+        radioBon.setText("Bonificación");
+        radioBon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                radioBonMouseClicked(evt);
+            }
+        });
+        jPanel16.add(radioBon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
+
+        tablaBonDes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido", "Dni", "Salario", "Motivo", "Porcentaje", "Total", "Fecha"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaBonDes);
+
+        jPanel16.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 840, 260));
+
+        jLabel46.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel46.setText("Tipo de Asignación:");
+        jPanel16.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, 30));
+
+        jLabel47.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel47.setText("Dato:");
+        jPanel16.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 270, -1, 30));
+
+        comboBuscarBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni", " " }));
+        jPanel16.add(comboBuscarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 150, 30));
+
+        txtDatoBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDatoBDActionPerformed(evt);
+            }
+        });
+        jPanel16.add(txtDatoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 190, 30));
+
+        jPanel25.setBackground(new java.awt.Color(204, 0, 51));
+
+        jLabel48.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel48.setText("Busqueda y Filtros");
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel48)
+                .addContainerGap(664, Short.MAX_VALUE))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(jLabel48)
+                .addContainerGap())
+        );
+
+        jPanel16.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 850, 40));
+
+        jLabel52.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel52.setText("  Buscar por");
+        jPanel16.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, 20));
+
+        jLabel54.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel54.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/BondesLog.jpg"))); // NOI18N
+        jPanel16.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 20, -1, 110));
+
+        bttnBuscarBD.setText("BUSCAR");
+        bttnBuscarBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnBuscarBDActionPerformed(evt);
+            }
+        });
+        jPanel16.add(bttnBuscarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, 90, 30));
+
+        bttnAsignar.setText("ASIGNAR");
+        jPanel16.add(bttnAsignar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 160, 90, 30));
+
+        btnMostrarBD.setText("MOSTRAR");
+        btnMostrarBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarBDActionPerformed(evt);
+            }
+        });
+        jPanel16.add(btnMostrarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 270, 90, 30));
+
+        jTabbedPane1.addTab("tab3", jPanel16);
 
         jPanel29.setBackground(new java.awt.Color(255, 255, 255));
         jPanel29.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -933,7 +1023,137 @@ public class Main extends javax.swing.JFrame {
         jLabel85.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel85.setForeground(new java.awt.Color(204, 0, 51));
         jLabel85.setText("Contratos");
-        jPanel29.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jPanel29.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        jLabel49.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
+        jPanel29.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
+
+        jLabel51.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel51.setText("Dato");
+        jPanel29.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, 30));
+
+        jLabel86.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel86.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel86.setText("Apellidos");
+        jPanel29.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, -1, 30));
+        jPanel29.add(txtDatoC, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, 190, -1));
+
+        comboBuscarC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Dni", "Departamento" }));
+        jPanel29.add(comboBuscarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 170, -1));
+
+        tablaC.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido", "Dni", "Departamento", "Sede", "Salario"
+            }
+        ));
+        jScrollPane5.setViewportView(tablaC);
+
+        jPanel29.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 870, 220));
+
+        jLabel87.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel87.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel87.setText("Buscar por:");
+        jPanel29.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, -1, 30));
+
+        jLabel88.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel88.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel88.setText("Archivo");
+        jPanel29.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 30));
+
+        jLabel89.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel89.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel89.setText("Nombre");
+        jPanel29.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, 30));
+
+        jLabel91.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel91.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel91.setText("Dni");
+        jPanel29.add(jLabel91, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 130, -1, 30));
+
+        jLabel93.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel93.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel93.setText("Departamento");
+        jPanel29.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, 30));
+
+        jLabel94.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel94.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel94.setText("Sede");
+        jPanel29.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, -1, 30));
+
+        jLabel95.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel95.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel95.setText("Salario");
+        jPanel29.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 240, -1, 30));
+
+        btnSeleccionarC.setText("Seleccionar...");
+        btnSeleccionarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarCActionPerformed(evt);
+            }
+        });
+        jPanel29.add(btnSeleccionarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, 280, 30));
+        jPanel29.add(txtSede, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 140, -1));
+        jPanel29.add(txtNombreC, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 150, -1));
+        jPanel29.add(txtApellidosC, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 200, -1));
+        jPanel29.add(txtDniC, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 130, 140, -1));
+        jPanel29.add(txtDepartamentoC, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, 140, -1));
+        jPanel29.add(txtSedeC, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, 140, -1));
+
+        jPanel2.setBackground(new java.awt.Color(204, 0, 51));
+        jPanel2.setPreferredSize(new java.awt.Dimension(890, 40));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel14.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Información Personal");
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 40));
+
+        jPanel29.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 870, 40));
+
+        jPanel4.setBackground(new java.awt.Color(204, 0, 51));
+        jPanel4.setPreferredSize(new java.awt.Dimension(890, 40));
+
+        jLabel12.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Información Empresarial");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel12)
+                .addContainerGap(621, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel29.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 870, 40));
+
+        jButton2.setText("AGREGAR");
+        jPanel29.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 290, 90, 30));
+
+        btnBuscarC.setText("BUSCAR");
+        btnBuscarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarCActionPerformed(evt);
+            }
+        });
+        jPanel29.add(btnBuscarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 20, 80, 30));
 
         jTabbedPane1.addTab("tab6", jPanel29);
 
@@ -1045,7 +1265,7 @@ public class Main extends javax.swing.JFrame {
 
         jPanel15.add(jPanel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 380, 190));
 
-        tablaE.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -1055,10 +1275,18 @@ public class Main extends javax.swing.JFrame {
             new String [] {
                 "Nombre", "Dni", "Departamento", "Salario", "Beneficios", "Descuentos", "Total"
             }
-        ));
-        jScrollPane3.setViewportView(tablaE);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
 
-        jPanel15.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 800, 210));
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tablaPG);
+
+        jPanel15.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 800, 210));
 
         jLabel76.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel76.setForeground(new java.awt.Color(204, 0, 51));
@@ -1069,11 +1297,6 @@ public class Main extends javax.swing.JFrame {
         jLabel79.setForeground(new java.awt.Color(51, 51, 51));
         jLabel79.setText("  Buscar por");
         jPanel15.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, 20));
-
-        jLabel80.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel80.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel80.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Filtro.png"))); // NOI18N
-        jPanel15.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, -1, 30));
 
         comboNomP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni" }));
         jPanel15.add(comboNomP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 150, 30));
@@ -1090,232 +1313,17 @@ public class Main extends javax.swing.JFrame {
         jLabel81.setText("Dato:");
         jPanel15.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 280, -1, 30));
 
-        jLabel82.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel82.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel82.setText("Filtrar por periodo");
-        jPanel15.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, 30));
-
         jLabel83.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel83.setForeground(new java.awt.Color(51, 51, 51));
         jLabel83.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
         jPanel15.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, -1, 30));
 
-        comboPeriodoP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre", " " }));
-        jPanel15.add(comboPeriodoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 320, 150, 30));
-
         jTabbedPane1.addTab("tab2", jPanel15);
-
-        jPanel16.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel40.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
-        jLabel40.setForeground(new java.awt.Color(204, 0, 51));
-        jLabel40.setText("BonDes");
-        jPanel16.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
-
-        jLabel41.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel41.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel41.setText("Agregar un nuevo motivo");
-        jPanel16.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, -1, 30));
-
-        jLabel42.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel42.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
-        jPanel16.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, 30));
-
-        jLabel43.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel43.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel43.setText("Apellido");
-        jPanel16.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, 30));
-
-        txtNombreBD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreBDActionPerformed(evt);
-            }
-        });
-        jPanel16.add(txtNombreBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 220, 30));
-
-        txtApellidoBD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApellidoBDActionPerformed(evt);
-            }
-        });
-        jPanel16.add(txtApellidoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 220, 30));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel16.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 180, 30));
-
-        jLabel44.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel44.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel44.setText("Motivo");
-        jPanel16.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, -1, 30));
-
-        grupoMotivoBD.add(radioNoBD);
-        radioNoBD.setText("No");
-        jPanel16.add(radioNoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, -1, -1));
-
-        grupoMotivoBD.add(radioSiBD);
-        radioSiBD.setText("Si");
-        jPanel16.add(radioSiBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 160, -1, -1));
-
-        jLabel45.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel45.setText("Nombre");
-        jPanel16.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, 30));
-
-        grupoBD.add(jRadioButton1);
-        jRadioButton1.setText("Descuento");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        jPanel16.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, -1, -1));
-
-        grupoBD.add(jRadioButton2);
-        jRadioButton2.setText("Bonificación");
-        jPanel16.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellido", "Dni", "Salario", "Motivo", "Porcentaje", "Total", "Fecha"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
-
-        jPanel16.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 840, 210));
-
-        jLabel46.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel46.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel46.setText("Tipo de Asignación:");
-        jPanel16.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, 30));
-
-        jLabel47.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel47.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel47.setText("Dato:");
-        jPanel16.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, -1, 30));
-
-        comboNomBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni" }));
-        jPanel16.add(comboNomBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, 150, 30));
-
-        txtDatoBD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDatoBDActionPerformed(evt);
-            }
-        });
-        jPanel16.add(txtDatoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 270, 220, 30));
-
-        jLabel50.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel50.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel50.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Filtro.png"))); // NOI18N
-        jLabel50.setText("Filtros:");
-        jPanel16.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 30));
-
-        comboPeriodoBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre", " " }));
-        jPanel16.add(comboPeriodoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 320, 150, 30));
-
-        jPanel25.setBackground(new java.awt.Color(204, 0, 51));
-
-        jLabel48.setFont(new java.awt.Font("Bahnschrift", 0, 20)); // NOI18N
-        jLabel48.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel48.setText("Busqueda y Filtros");
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel48)
-                .addContainerGap(664, Short.MAX_VALUE))
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
-                .addComponent(jLabel48)
-                .addContainerGap())
-        );
-
-        jPanel16.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 850, 40));
-
-        jLabel52.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel52.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel52.setText("  Buscar por");
-        jPanel16.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, 20));
-
-        jLabel53.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel53.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel53.setText("Periodo");
-        jPanel16.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 320, -1, 30));
-
-        jLabel54.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel54.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/BondesLog.jpg"))); // NOI18N
-        jPanel16.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 20, -1, 110));
-
-        jLabel55.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel55.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/calendario.png"))); // NOI18N
-        jPanel16.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 30, 30));
-
-        bttnFiltrarBD.setText("FILTRAR");
-        jPanel16.add(bttnFiltrarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 320, 90, 30));
-
-        bttnBuscarBD.setText("BUSCAR");
-        jPanel16.add(bttnBuscarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 270, 90, 30));
-
-        bttnAsignar.setText("ASIGNAR");
-        jPanel16.add(bttnAsignar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 160, 90, 30));
-
-        jTabbedPane1.addTab("tab3", jPanel16);
 
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 1110, 740));
 
         setBounds(0, 0, 1215, 740);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDniActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void txtTelefonoACTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoACTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefonoACTActionPerformed
-
-    private void txtNomViaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomViaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomViaActionPerformed
-
-    private void txtNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNumeroActionPerformed
-
-    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void txtNombreREActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreREActionPerformed
         // TODO add your handling code here:
@@ -1365,9 +1373,9 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidoBDActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void radioDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_radioDesActionPerformed
 
     private void txtDatoBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDatoBDActionPerformed
         // TODO add your handling code here:
@@ -1447,12 +1455,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(5);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jPanel12MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(5);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jPanel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseEntered
@@ -1477,12 +1485,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(4);
+        jTabbedPane1.setSelectedIndex(5);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(4);
+        jTabbedPane1.setSelectedIndex(5);
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
@@ -1507,12 +1515,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
-         jTabbedPane1.setSelectedIndex(3);
+         jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
-         jTabbedPane1.setSelectedIndex(3);
+         jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jPanel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseEntered
@@ -1585,6 +1593,159 @@ public class Main extends javax.swing.JFrame {
          jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel3MouseClicked
 
+    private void btnSeleccionarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarCActionPerformed
+        // TODO add your handling code here:
+                JFileChooser j = new JFileChooser();
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "pdf");
+        j.setFileFilter(fi);
+        int se = j.showOpenDialog(this);
+        if (se == 0) {
+            this.btnSeleccionarC.setText("" + j.getSelectedFile().getName());
+            ruta_archivo = j.getSelectedFile().getAbsolutePath();
+
+        } else {
+        }
+    }//GEN-LAST:event_btnSeleccionarCActionPerformed
+
+    private void comboAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboAActionPerformed
+
+    private void btnSeleccionarAAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarAAActionPerformed
+        // TODO add your handling code here:
+        String actualizar = comboA.getSelectedItem().toString();
+        
+        if(actualizar == "Empleados"){
+            pages.ViewPages(pEmpleado, bg);
+        }
+        else if(actualizar == "Contratos"){
+            pages.ViewPages(pContrato, bg);
+        }
+    }//GEN-LAST:event_btnSeleccionarAAActionPerformed
+
+    private void radioBonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioBonMouseClicked
+        // TODO add your handling code here:
+        String parametros[] = {};
+        ResultSet datosB = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo", parametros);
+        ftable.InsertarDatos(tablaBonDes, datosB);
+    }//GEN-LAST:event_radioBonMouseClicked
+
+    private void radioDesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioDesMouseClicked
+        // TODO add your handling code here:
+        String parametros[] = {};
+        ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
+        ftable.InsertarDatos(tablaBonDes, datosD);
+    }//GEN-LAST:event_radioDesMouseClicked
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // TODO add your handling code here:
+        String parametros[] = {};
+        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
+        ftable.InsertarDatos(tablaEmp, datosE);
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void btnBuscarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEActionPerformed
+        // TODO add your handling code here:
+        String combo = comboBuscarE.getSelectedItem().toString(); 
+            String buscar = txtDatoE.getText();
+            String parametros[] = {buscar};
+        switch (combo){
+            case "Nombre" -> {
+                ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where E.Nombre = ?", parametros);
+                ftable.InsertarDatos(tablaEmp, datosN);
+            }
+            case "Apellido" -> {
+                ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.ApellidoParterno = ?", parametros);
+                ftable.InsertarDatos(tablaEmp, datosA);
+            }
+            case "Dni" -> {
+                ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.Dni = ?", parametros);
+                ftable.InsertarDatos(tablaEmp, datosD);
+            }
+            case "Departamento" -> {
+                ResultSet datosDE = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where D.Nombre = ?", parametros);
+                ftable.InsertarDatos(tablaEmp, datosDE);
+            }                
+        }
+    }//GEN-LAST:event_btnBuscarEActionPerformed
+
+    private void bttnBuscarBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarBDActionPerformed
+        // TODO add your handling code here:
+        if(radioDes.isSelected()){
+            String combo = comboBuscarBD.getSelectedItem().toString(); 
+            String buscar = txtDatoBD.getText();
+            String parametros[] = {buscar};
+            switch (combo){
+                case "Nombre" -> {
+                    ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Nombre = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosN);
+                }
+                case "Apellido" -> {
+                    ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.ApellidoParterno = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosA);                    
+                }
+                case "Dni" -> {
+                    ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Dni = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosD); 
+                }
+            }
+        }
+        else if(radioBon.isSelected()){
+            String combo = comboBuscarBD.getSelectedItem().toString(); 
+            String buscar = txtDatoBD.getText();
+            String parametros[] = {buscar};
+                switch (combo){
+                case "Nombre" -> {
+                    ResultSet datosN = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Nombre = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosN);
+                }
+                case "Apellido" -> {
+                    ResultSet datosA = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.ApellidoParterno = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosA);                    
+                }
+                case "Dni" -> {
+                    ResultSet datosD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Dni = ?", parametros);
+                    ftable.InsertarDatos(tablaBonDes, datosD); 
+                }
+            }
+        }
+    }//GEN-LAST:event_bttnBuscarBDActionPerformed
+
+    private void btnMostrarBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarBDActionPerformed
+        // TODO add your handling code here:
+        if(radioBon.isSelected()){
+            String parametros[] = {};            
+            ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
+            ftable.InsertarDatos(tablaBonDes, datosBD);
+        }
+        else if (radioDes.isSelected()){
+            String parametros[] = {};
+            ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
+            ftable.InsertarDatos(tablaBonDes, datosD);
+        }
+    }//GEN-LAST:event_btnMostrarBDActionPerformed
+
+    private void btnBuscarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCActionPerformed
+        // TODO add your handling code here:
+         String combo = comboBuscarC.getSelectedItem().toString(); 
+         String buscar = txtDatoC.getText();
+         String parametros[] = {buscar};
+            switch (combo){
+            case "Nombre" -> {
+                ResultSet datosN = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Nombre = ?", parametros);
+                ftable.InsertarDatos(tablaC, datosN);
+            }
+            case "Dni" -> {
+                ResultSet datosD = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Dni = ?", parametros);
+                ftable.InsertarDatos(tablaC, datosD);
+            }
+            case "Departamento" -> {
+                ResultSet datosDE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where D.Nombre = ?", parametros);
+                ftable.InsertarDatos(tablaC, datosDE);
+            }                
+        }
+    }//GEN-LAST:event_btnBuscarCActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1621,15 +1782,21 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bg;
+    private javax.swing.JButton btnActualizarA;
+    private javax.swing.JButton btnBuscarC;
+    private javax.swing.JButton btnBuscarE;
+    private javax.swing.JButton btnMostrar;
+    private javax.swing.JButton btnMostrarBD;
+    private javax.swing.JButton btnSeleccionarAA;
+    private javax.swing.JButton btnSeleccionarC;
     private javax.swing.JButton bttnAsignar;
     private javax.swing.JButton bttnBuscarBD;
-    private javax.swing.JButton bttnFiltrarBD;
+    private javax.swing.JComboBox<String> comboA;
+    private javax.swing.JComboBox<String> comboBuscarBD;
+    private javax.swing.JComboBox<String> comboBuscarC;
     private javax.swing.JComboBox<String> comboBuscarE;
-    private javax.swing.JComboBox<String> comboNomBD;
     private javax.swing.JComboBox<String> comboNomP;
-    private javax.swing.JComboBox<String> comboPeriodoBD;
-    private javax.swing.JComboBox<String> comboPeriodoP;
-    private javax.swing.JComboBox<String> comboVia;
     private javax.swing.JComboBox<String> comboViaRE;
     private javax.swing.ButtonGroup grupoBD;
     private javax.swing.ButtonGroup grupoMotivoBD;
@@ -1640,18 +1807,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -1679,12 +1837,11 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
@@ -1712,13 +1869,19 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
-    private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1728,10 +1891,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
@@ -1740,47 +1902,48 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable4;
+    private javax.swing.JRadioButton radioBon;
+    private javax.swing.JRadioButton radioDes;
     private javax.swing.JRadioButton radioNo;
     private javax.swing.JRadioButton radioNoBD;
     private javax.swing.JRadioButton radioSi;
     private javax.swing.JRadioButton radioSiBD;
-    private javax.swing.JTable tablaE;
-    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTable tablaBonDes;
+    private javax.swing.JTable tablaC;
+    private javax.swing.JTable tablaEmp;
+    private javax.swing.JTable tablaPG;
     private javax.swing.JTextField txtApellidoBD;
     private javax.swing.JTextField txtApellidoRE;
+    private javax.swing.JTextField txtApellidosC;
     private javax.swing.JTextField txtDatoBD;
+    private javax.swing.JTextField txtDatoC;
     private javax.swing.JTextField txtDatoE;
     private javax.swing.JTextField txtDatoP;
+    private javax.swing.JTextField txtDepartamentoC;
     private javax.swing.JTextField txtDepartamentoRE;
-    private javax.swing.JTextField txtDni;
+    private javax.swing.JTextField txtDniC;
     private javax.swing.JTextField txtDniRE;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailRE;
     private javax.swing.JTextField txtEntradaRE;
-    private javax.swing.JTextField txtNomVia;
     private javax.swing.JTextField txtNomViaRE;
-    private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombreBD;
+    private javax.swing.JTextField txtNombreC;
     private javax.swing.JTextField txtNombreRE;
-    private javax.swing.JTextField txtNumero;
     private javax.swing.JTextField txtNumeroRE;
     private javax.swing.JTextField txtSalidaRE;
-    private javax.swing.JTextField txtTelefonoACT;
+    private javax.swing.JTextField txtSede;
+    private javax.swing.JTextField txtSedeC;
     private javax.swing.JTextField txtTelefonoRE;
     // End of variables declaration//GEN-END:variables
 }
