@@ -10,10 +10,6 @@ import java.util.Set;
 
 import javax.print.DocFlavor.STRING;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 97e5c34e764fe73cbf13de86889d26cfff0bc85e
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageType;
 import com.itextpdf.kernel.colors.Color;
@@ -31,15 +27,11 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.properties.VerticalAlignment;
-<<<<<<< HEAD
-import com.itextpdf.io.image.ImageDataFactory;;
-
-=======
 
 import Database.Crud;
 
-import com.itextpdf.io.image.ImageDataFactory;
->>>>>>> 97e5c34e764fe73cbf13de86889d26cfff0bc85e
+import com.itextpdf.io.image.ImageDataFactory;;
+
 public class FPdf {
     private List<String>  DatosTrabajador = new ArrayList<String>();
     private List<String> DatosRelacionLaboral = new ArrayList<String>();
@@ -85,10 +77,6 @@ public class FPdf {
     public void generar(){
         String dest = Dni + " " + LocalDate.now() +".pdf";
         try {
-<<<<<<< HEAD
-            
-=======
->>>>>>> 97e5c34e764fe73cbf13de86889d26cfff0bc85e
             PdfWriter writer = new PdfWriter(dest);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, PageSize.A4.rotate());
@@ -213,10 +201,6 @@ public class FPdf {
             document.add(new Paragraph("Paijan, Junio del 2024"));
             document.close();
             System.out.println("Se creo");
-<<<<<<< HEAD
-           
-=======
->>>>>>> 97e5c34e764fe73cbf13de86889d26cfff0bc85e
         } catch (Exception e) {
             System.out.println(e.toString());
         }
