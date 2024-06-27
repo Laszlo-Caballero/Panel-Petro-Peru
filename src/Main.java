@@ -24,7 +24,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     Pages pages = new Pages();
-    FPdf pdf = new FPdf();
+    FPdf pdf = new FPdf("01310691");
     Login login;
     String ruta_archivo = "";
     ActEmpleado pEmpleado = new ActEmpleado();
@@ -38,6 +38,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         pdf.generar();
         this.setLocationRelativeTo(null);
+        pdf.generar();
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
         String parametros[] = {};
