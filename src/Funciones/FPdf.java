@@ -2,6 +2,7 @@ package Funciones;
 import java.lang.annotation.ElementType;
 import java.sql.ResultSet;
 
+/**
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageType;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -18,7 +19,7 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import com.itextpdf.io.image.ImageDataFactory;;
-
+ */
 public class FPdf {
     private ResultSet DatosEmpleadoNombre;
     private ResultSet DatosEmpleadoRL;
@@ -36,6 +37,7 @@ public class FPdf {
     public void generar(){
         String dest = "hello_word.pdf";
         try {
+            /**
             PdfWriter writer = new PdfWriter(dest);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, PageSize.A4.rotate());
@@ -152,6 +154,7 @@ public class FPdf {
 
             document.close();
             System.out.println("Se creo");
+            *  */
         } catch (Exception e) {
             System.out.println(e.toString());
         }
