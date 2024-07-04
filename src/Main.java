@@ -42,13 +42,13 @@ public class Main extends javax.swing.JFrame {
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
         String parametros[] = {};
-        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
+        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
         ftable.InsertarDatos(tablaEmp, datosE);
-        ResultSet datosC = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado", parametros);
+        ResultSet datosC = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado", parametros);
         ftable.InsertarDatos(tablaC, datosC);
-        ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
+        ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
         ftable.InsertarDatos(tablaBonDes, datosBD);
-        ResultSet datosPG = crud.SelectCondition("SELECT E.Nombre, E.ApellidoParterno + ' ' + E.ApellidoMaterno AS Apellidos, E.Dni, D.Nombre AS Departamento, C.Salario,(SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) AS TotalBonificaciones, (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0))  FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS TotalDescuentos, (C.Salario + ( SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) ) - (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0)) FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS PAGO FROM Empleado E inner join Contrato C on C.IdContrato = E.IdContrato inner join Departamento D ON D.IdDepartamento = E.IdDepartamento", parametros);
+        ResultSet datosPG = crud.SelectCondition("SELECT E.Nombre, E.ApellidoPaterno + ' ' + E.ApellidoMaterno AS Apellidos, E.Dni, D.Nombre AS Departamento, C.Salario,(SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) AS TotalBonificaciones, (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0))  FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS TotalDescuentos, (C.Salario + ( SELECT SUM(ROUND(M.Porcentaje * C.Salario, 0)) FROM AsignacionBonificacion AB INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Bonificacion B ON B.IdBonificacion = AB.IdBonificacion INNER JOIN Motivo M ON M.IdMotivo = B.IdMotivo WHERE AB.IdEmpleado = E.IdEmpleado) ) - (SELECT SUM(ROUND(R.Porcentaje * C.Salario, 0)) FROM AsignacionDescuento AD INNER JOIN Contrato C ON C.IdContrato = E.IdContrato INNER JOIN Descuento D ON D.IdDescuento = AD.IdDescuento INNER JOIN Razon R ON R.IdRazon = D.IdRazon WHERE AD.IdEmpleado = E.IdEmpleado) AS PAGO FROM Empleado E inner join Contrato C on C.IdContrato = E.IdContrato inner join Departamento D ON D.IdDepartamento = E.IdDepartamento", parametros);
         ftable.InsertarDatos(tablaPG, datosPG);
     }
 
@@ -238,7 +238,7 @@ public class Main extends javax.swing.JFrame {
         jLabel2.setText("Grifo Paijan");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 60));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 90));
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1027,17 +1027,14 @@ public class Main extends javax.swing.JFrame {
         jPanel29.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jLabel49.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel49.setForeground(new java.awt.Color(0, 0, 0));
         jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
         jPanel29.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
 
         jLabel51.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(0, 0, 0));
         jLabel51.setText("Dato");
         jPanel29.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, 30));
 
         jLabel86.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(0, 0, 0));
         jLabel86.setText("Apellidos");
         jPanel29.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, -1, 30));
         jPanel29.add(txtDatoC, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, 190, -1));
@@ -1061,37 +1058,30 @@ public class Main extends javax.swing.JFrame {
         jPanel29.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 870, 220));
 
         jLabel87.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel87.setForeground(new java.awt.Color(0, 0, 0));
         jLabel87.setText("Buscar por:");
         jPanel29.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, -1, 30));
 
         jLabel88.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel88.setForeground(new java.awt.Color(0, 0, 0));
         jLabel88.setText("Archivo");
         jPanel29.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 30));
 
         jLabel89.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel89.setForeground(new java.awt.Color(0, 0, 0));
         jLabel89.setText("Nombre");
         jPanel29.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, 30));
 
         jLabel91.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel91.setForeground(new java.awt.Color(0, 0, 0));
         jLabel91.setText("Dni");
         jPanel29.add(jLabel91, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 130, -1, 30));
 
         jLabel93.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel93.setForeground(new java.awt.Color(0, 0, 0));
         jLabel93.setText("Departamento");
         jPanel29.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, 30));
 
         jLabel94.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel94.setForeground(new java.awt.Color(0, 0, 0));
         jLabel94.setText("Sede");
         jPanel29.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, -1, 30));
 
         jLabel95.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
-        jLabel95.setForeground(new java.awt.Color(0, 0, 0));
         jLabel95.setText("Salario");
         jPanel29.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 240, -1, 30));
 
@@ -1627,21 +1617,21 @@ public class Main extends javax.swing.JFrame {
     private void radioBonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioBonMouseClicked
         // TODO add your handling code here:
         String parametros[] = {};
-        ResultSet datosB = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo", parametros);
+        ResultSet datosB = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo", parametros);
         ftable.InsertarDatos(tablaBonDes, datosB);
     }//GEN-LAST:event_radioBonMouseClicked
 
     private void radioDesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioDesMouseClicked
         // TODO add your handling code here:
         String parametros[] = {};
-        ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
+        ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
         ftable.InsertarDatos(tablaBonDes, datosD);
     }//GEN-LAST:event_radioDesMouseClicked
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
         // TODO add your handling code here:
         String parametros[] = {};
-        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
+        ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
         ftable.InsertarDatos(tablaEmp, datosE);
     }//GEN-LAST:event_btnMostrarActionPerformed
 
@@ -1652,19 +1642,19 @@ public class Main extends javax.swing.JFrame {
             String parametros[] = {buscar};
         switch (combo){
             case "Nombre" -> {
-                ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where E.Nombre = ?", parametros);
+                ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where E.Nombre = ?", parametros);
                 ftable.InsertarDatos(tablaEmp, datosN);
             }
             case "Apellido" -> {
-                ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.ApellidoParterno = ?", parametros);
+                ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.ApellidoPaterno = ?", parametros);
                 ftable.InsertarDatos(tablaEmp, datosA);
             }
             case "Dni" -> {
-                ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.Dni = ?", parametros);
+                ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento	Where E.Dni = ?", parametros);
                 ftable.InsertarDatos(tablaEmp, datosD);
             }
             case "Departamento" -> {
-                ResultSet datosDE = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where D.Nombre = ?", parametros);
+                ResultSet datosDE = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where D.Nombre = ?", parametros);
                 ftable.InsertarDatos(tablaEmp, datosDE);
             }                
         }
@@ -1678,15 +1668,15 @@ public class Main extends javax.swing.JFrame {
             String parametros[] = {buscar};
             switch (combo){
                 case "Nombre" -> {
-                    ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Nombre = ?", parametros);
+                    ResultSet datosN = crud.SelectCondition("Select E.Nombre,E.Apellido + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Nombre = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosN);
                 }
                 case "Apellido" -> {
-                    ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.ApellidoParterno = ?", parametros);
+                    ResultSet datosA = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.ApellidoPaterno = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosA);                    
                 }
                 case "Dni" -> {
-                    ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Dni = ?", parametros);
+                    ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon Where E.Dni = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosD); 
                 }
             }
@@ -1697,15 +1687,15 @@ public class Main extends javax.swing.JFrame {
             String parametros[] = {buscar};
                 switch (combo){
                 case "Nombre" -> {
-                    ResultSet datosN = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Nombre = ?", parametros);
+                    ResultSet datosN = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Nombre = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosN);
                 }
                 case "Apellido" -> {
-                    ResultSet datosA = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.ApellidoParterno = ?", parametros);
+                    ResultSet datosA = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.ApellidoPaterno = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosA);                    
                 }
                 case "Dni" -> {
-                    ResultSet datosD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Dni = ?", parametros);
+                    ResultSet datosD = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos,E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo Where E.Dni = ?", parametros);
                     ftable.InsertarDatos(tablaBonDes, datosD); 
                 }
             }
@@ -1716,12 +1706,12 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(radioBon.isSelected()){
             String parametros[] = {};            
-            ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
+            ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
             ftable.InsertarDatos(tablaBonDes, datosBD);
         }
         else if (radioDes.isSelected()){
             String parametros[] = {};
-            ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoParterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
+            ResultSet datosD = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, R.Razon, R.Porcentaje, ROUND((R.Porcentaje)* c.Salario,0) AS total, AD.Fecha from AsignacionDescuento AD inner join Empleado E on E.IdEmpleado = AD.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Descuento D on D.IdDescuento = AD.IdDescuento inner join Razon R on R.IdRazon = D.IdRazon", parametros);
             ftable.InsertarDatos(tablaBonDes, datosD);
         }
     }//GEN-LAST:event_btnMostrarBDActionPerformed
@@ -1733,15 +1723,15 @@ public class Main extends javax.swing.JFrame {
          String parametros[] = {buscar};
             switch (combo){
             case "Nombre" -> {
-                ResultSet datosN = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Nombre = ?", parametros);
+                ResultSet datosN = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Nombre = ?", parametros);
                 ftable.InsertarDatos(tablaC, datosN);
             }
             case "Dni" -> {
-                ResultSet datosD = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Dni = ?", parametros);
+                ResultSet datosD = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where E.Dni = ?", parametros);
                 ftable.InsertarDatos(tablaC, datosD);
             }
             case "Departamento" -> {
-                ResultSet datosDE = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where D.Nombre = ?", parametros);
+                ResultSet datosDE = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado Where D.Nombre = ?", parametros);
                 ftable.InsertarDatos(tablaC, datosDE);
             }                
         }

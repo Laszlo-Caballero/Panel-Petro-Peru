@@ -23,7 +23,7 @@ public class ActEmpleado extends javax.swing.JPanel {
     public ActEmpleado() {
         initComponents();
         String parametros[] = {};
-        ResultSet datos = crud.SelectCondition("Select E.Nombre, E.ApellidoParterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion", parametros);
+        ResultSet datos = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion", parametros);
         ftable.InsertarDatos(tablaAE, datos);
     }
 
