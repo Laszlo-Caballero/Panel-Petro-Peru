@@ -7,6 +7,8 @@ package Paneles;
 import Database.Crud;
 import Funciones.FTable;
 import java.sql.ResultSet;
+
+import javax.swing.JButton;
 import javax.swing.table.TableModel;
 
 /**
@@ -20,11 +22,15 @@ public class ActEmpleado extends javax.swing.JPanel {
      */
     Crud crud = new Crud();
     FTable ftable = new FTable();
+    int column, row;
     public ActEmpleado() {
         initComponents();
         String parametros[] = {};
         ResultSet datos = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion", parametros);
-        ftable.InsertarDatos(tablaAE, datos);
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
+        JButton[] botones = {BtnDependiente};
+        ftable.InsertarDatos(tablaAE, datos, botones);
     }
 
     /**
@@ -184,17 +190,17 @@ public class ActEmpleado extends javax.swing.JPanel {
 
         tablaAE.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Dirección"
+                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Dirección", "Ver Dependiente "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -279,6 +285,23 @@ public class ActEmpleado extends javax.swing.JPanel {
         
         txtNomViaAE.setText(nombre);
         txtNumeroAE.setText(num);
+
+
+
+        column = tablaAE.getColumnModel().getColumnIndexAtX(evt.getX());
+        row = evt.getY()/tablaAE.getRowHeight();
+        if(column <= tablaAE.getColumnCount() && column >= 0 && row <= tablaAE.getRowCount() && row >= 0){
+            Object objeto = tablaAE.getValueAt(row, column);
+            if(objeto instanceof JButton){
+                ((JButton)objeto).doClick();
+                JButton boton = (JButton) objeto;
+                if(boton.getName() == "btn1"){
+                    Object dni = tablaAE.getValueAt(row, 2);
+                    VerDependiente ver = new VerDependiente(dni.toString());
+                    ver.setVisible(true);
+                }
+            }
+        }
     }//GEN-LAST:event_tablaAEMouseClicked
 
 

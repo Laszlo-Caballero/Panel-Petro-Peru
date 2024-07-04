@@ -6,8 +6,12 @@ import Funciones.Pages;
 import Paneles.ActContrato;
 import Paneles.ActEmpleado;
 import Paneles.Login;
+import Paneles.VerDependiente;
+
 import java.awt.Color;
 import java.sql.ResultSet;
+
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -31,6 +35,8 @@ public class Main extends javax.swing.JFrame {
     ActContrato pContrato = new ActContrato();
     Crud crud = new Crud();
     FTable ftable = new FTable();
+
+    int columna, row;
     
     Color mouseEnterColor = new Color(0,0,0);
     Color mouseExitColor = new Color(51,51,51);
@@ -41,9 +47,12 @@ public class Main extends javax.swing.JFrame {
         pdf.generar();
         //login = new Login(bg);
         //pages.ViewPages(login, bg);
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
+        JButton[] botones = {BtnDependiente};
         String parametros[] = {};
         ResultSet datosE = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento", parametros);
-        ftable.InsertarDatos(tablaEmp, datosE);
+        ftable.InsertarDatos(tablaEmp, datosE, botones);
         ResultSet datosC = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado", parametros);
         ftable.InsertarDatos(tablaC, datosC);
         ResultSet datosBD = crud.SelectCondition("Select e.Nombre, E.ApellidoPaterno + e.ApellidoMaterno AS Apellidos, E.Dni, C.Salario, M.Motivo, M.Porcentaje, (M.Porcentaje) * C.Salario  AS Total, AB.Fecha from AsignacionBonificacion AB inner join Empleado E on E.IdEmpleado = AB.IdEmpleado inner join Contrato C on C.IdContrato = E.IdContrato inner join Bonificacion B on B.IdBonificacion = AB.IdBonificacion inner join Motivo M on M.IdMotivo = B.IdMotivo ", parametros);
@@ -493,18 +502,23 @@ public class Main extends javax.swing.JFrame {
 
         tablaEmp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Direccion", "Departamento"
+                "Nombre", "Apellidos", "Dni", "Telefono", "Correo", "Direccion", "Departamento", "Ver Dependientes"
             }
         ));
+        tablaEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEmpMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tablaEmp);
 
-        jPanel26.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 900, 220));
+        jPanel26.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 900, 220));
 
         jLabel77.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel77.setForeground(new java.awt.Color(51, 51, 51));
@@ -1055,7 +1069,7 @@ public class Main extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(tablaC);
 
-        jPanel29.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 870, 220));
+        jPanel29.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 870, 220));
 
         jLabel87.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel87.setText("Buscar por:");
@@ -1736,6 +1750,25 @@ public class Main extends javax.swing.JFrame {
             }                
         }
     }//GEN-LAST:event_btnBuscarCActionPerformed
+
+    private void tablaEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpMouseClicked
+        columna = tablaEmp.getColumnModel().getColumnIndexAtX(evt.getX());
+        row = evt.getY()/tablaEmp.getRowHeight();
+        if(columna <= tablaEmp.getColumnCount() && columna >=0 && row <= tablaEmp.getRowCount() && row >=0){
+            Object objeto = tablaEmp.getValueAt(row, columna);
+            if(objeto instanceof JButton){
+                ((JButton)objeto).doClick();
+                JButton boton = (JButton) objeto;
+                if(boton.getName() == "btn1"){
+                    Object dni = tablaEmp.getValueAt(row, 2);
+                    System.out.println(dni.toString());
+                    VerDependiente ver = new VerDependiente(dni.toString());
+                    ver.setVisible(true);
+                }
+            }
+        }
+
+    }//GEN-LAST:event_tablaEmpMouseClicked
 
     /**
      * @param args the command line arguments
