@@ -3,6 +3,27 @@
     "lib/**/*.jar",
     "c:\\Users\\laszl\\Downloads\\sqljdbc_12.6\\enu\\jars\\mssql-jdbc-12.6.1.jre11.jar",
     "package/mssql-jdbc-12.6.1.jre11.jar",
-    "package/jcalendar-1.4.jar"
+    "package/jcalendar-1.4.jar",
+    "package/barcodes-8.0.4.jar",
+    "package/forms-8.0.4.jar",
+    "package/io-8.0.4.jar",
+    "package/kernel-8.0.4.jar",
+    "package/layout-8.0.4.jar",
+    "package/pdfa-8.0.4.jar",
+    "package/sign-8.0.4.jar",
+    "package/bouncy-castle-adapter-8.0.4.jar",
+    "package/bouncy-castle-connector-8.0.4.jar",
+    "package/bouncy-castle-fips-adapter-8.0.4.jar",
+    "package/commons-8.0.4.jar",
+    "package/font-asian-8.0.4.jar",
+    "package/hyph-8.0.4.jar",
+    "package/pdftest-8.0.4.jar",
+    "package/pdfua-8.0.4.jar",
+    "package/styled-xml-parser-8.0.4.jar",
+    "package/svg-8.0.4.jar",
+    "package/log4j-1.2.17.jar",
+    "package/slf4j-api-1.7.9.jar",
+    "package/slf4j-log4j12-1.7.9.jar",
+    "c:\\Program Files\\NetBeans-21\\netbeans\\java\\modules\\ext\\AbsoluteLayout.jar"
   ]
 }

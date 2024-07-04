@@ -23,11 +23,11 @@ public class VerDependiente extends javax.swing.JFrame {
     public VerDependiente() {
         initComponents();
     }
-    public VerDependiente(String id){
+
+    public VerDependiente(String dni){
         initComponents();
-        String[] parametros = {id};
-        ResultSet dependientes = crud.SelectCondition("select Dependientes.Dni, Dependientes.fechaNacimiento, Dependientes.estadoEstudioSuperior, Dependientes.estado from Dependientes Join EmpleadoDependiente on EmpleadoDependiente.Dni = Dependientes.Dni and EmpleadoDependiente.idEmpleado = ?", parametros);
-        System.out.println(dependientes);
+        String[] parametros = {dni};
+        ResultSet dependientes = crud.SelectCondition("select D.Nombre, D.Dni, D.FechaNaciento, D.EstadoEstudioSuperior, D.Estado from AsignacionDependiente as AD inner join Empleado as E on E.IdEmpleado = AD.IdEmpleado inner join Dependiente as D on D.IdDependiente = AD.IdDependiente where E.Dni = ?", parametros);
         fTable.InsertarDatos(TDependiente, dependientes);
     }
 
@@ -47,20 +47,20 @@ public class VerDependiente extends javax.swing.JFrame {
 
         TDependiente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Dni", "Fecha Nacimiento", "Estudio Superior", "Estado "
+                "Nombre", "Dni", "Fecha Nacimiento", "Estudio Superior", "Estado "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -77,11 +77,13 @@ public class VerDependiente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
