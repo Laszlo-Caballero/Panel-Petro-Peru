@@ -23,7 +23,7 @@ public class ActContrato extends javax.swing.JPanel {
     public ActContrato() {
         initComponents();
                 String parametros[] = {};
-        ResultSet datos = crud.SelectCondition("Select E.Nombre, E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, D.Nombre AS 'Departamento', c.Sede, c.Salario from Empleado E inner join Departamento D on D.IdDepartamento = E.IdDepartamento inner join Contrato C on c.IdContrato = e.IdEmpleado", parametros);
+        ResultSet datos = crud.SelectCondition("exec DatosActContrato", parametros);
         ftable.InsertarDatos(tablaAC, datos);
     }
 

@@ -20,7 +20,7 @@ public class Pages {
         page.setSize(width, height);
         page.setLocation(0, 0);
         content.removeAll();
-        content.add(page, BorderLayout.CENTER);
+        content.add(page);
         content.revalidate();
         content.repaint();
     }
