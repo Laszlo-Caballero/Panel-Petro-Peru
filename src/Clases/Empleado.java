@@ -13,15 +13,13 @@ public class Empleado {
     private Database conexion = new Database();
     private Connection sql = conexion.getConnection();
     private String Telefono;
-    private String Dirrecion;
     private String Correo;
-    public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni, String _Telefono, String _DString, String _CString){
+    public Empleado(int _id, String _nombre, String _apellido, Usuario _usuario, int _dni, String _Telefono, String _CString){
         this.id = _id;
         this.nombre = _nombre;
         this.apellido = _apellido;
         this.dni = _dni;
         this.Telefono = _Telefono;
-        this.Dirrecion = _DString;
         this.Correo = _CString;
     }
     public Empleado(String _nombre, String _apellido, Usuario _usuario, int _dni){
@@ -58,12 +56,6 @@ public class Empleado {
     }
     public void setTelefono(String _Telefono){
         this.Telefono = _Telefono;
-    }
-    public String getDirrecion(){
-        return Dirrecion;
-    }
-    public void setDirrecion(String _DString){
-        this.Dirrecion = _DString;
     }
     public String getCorreo(){
         return Correo;
@@ -116,7 +108,6 @@ public class Empleado {
         try {
             PreparedStatement statement = sql.prepareStatement(QuerySql);
             statement.setString(1, actualizado.Telefono);
-            statement.setString(2, actualizado.Dirrecion);
             statement.setString(3, actualizado.Correo);
             statement.setString(4, dni);
             ResultSet resultado = statement.executeQuery();
@@ -131,7 +122,6 @@ public class Empleado {
         try {
             PreparedStatement statement = sql.prepareStatement(QuerySql);
             statement.setString(1, actualizado.Telefono);
-            statement.setString(2, actualizado.Dirrecion);
             statement.setString(3, actualizado.Correo);
             statement.setInt(4, id);
             ResultSet resultado = statement.executeQuery();

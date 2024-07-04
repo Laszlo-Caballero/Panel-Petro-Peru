@@ -70,6 +70,23 @@ public class Crud {
             return null;
         }
     }
+    public int UICondition(String query, String[] parametros){
+        try {
+            PreparedStatement statement = sql.prepareStatement(query);
+            if(parametros.length > 0){
+                for(int i = 0; i < parametros.length; i++){
+                    statement.setString(i +1, parametros[i]);
+                }
+            }
+            int resultado = statement.executeUpdate();
+            return resultado;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+            return -1;
+        }
+    }
+
+
     public void InsertData(Empleado nuevo){
         String consuta = "Insert into Emplelados (nombre, apellido, usuario, contraseña, dni) values (?, ?, ?, ?, ?)";
         try {
