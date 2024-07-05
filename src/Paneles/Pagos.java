@@ -5,8 +5,10 @@
 package Paneles;
 
 import Database.Crud;
+import Funciones.FPdf;
 import Funciones.FTable;
 import java.sql.ResultSet;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -22,8 +24,8 @@ public class Pagos extends javax.swing.JPanel {
     public Pagos() {
         initComponents();
         String parametros[] = {};
-        ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
-        ftable.InsertarDatos(tablaPG, datosPG);
+     //   ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
+     //        ftable.InsertarDatos(tablaPG, datosPG);
     }
 
     /**
@@ -67,6 +69,7 @@ public class Pagos extends javax.swing.JPanel {
         jLabel83 = new javax.swing.JLabel();
         btnBuscarP = new javax.swing.JButton();
         btnMostrarPG = new javax.swing.JButton();
+        btnPdf = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -247,6 +250,14 @@ public class Pagos extends javax.swing.JPanel {
         });
         jPanel15.add(btnMostrarPG, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
 
+        btnPdf.setText("DESCARGAR PDF");
+        btnPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfActionPerformed(evt);
+            }
+        });
+        jPanel15.add(btnPdf, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 40));
+
         add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 620));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -282,10 +293,21 @@ public class Pagos extends javax.swing.JPanel {
         ftable.InsertarDatos(tablaPG, datosPG);
     }//GEN-LAST:event_btnMostrarPGActionPerformed
 
+    private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
+        // TODO add your handling code here:
+        int i = tablaPG.getSelectedRow();
+        TableModel modelo = tablaPG.getModel();
+        
+        String dni = (modelo.getValueAt(i,2).toString());
+        System.out.println(dni);
+        
+    }//GEN-LAST:event_btnPdfActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarP;
     private javax.swing.JButton btnMostrarPG;
+    private javax.swing.JButton btnPdf;
     private javax.swing.JComboBox<String> comboBuscarP;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
