@@ -150,6 +150,9 @@ public class Empleado extends javax.swing.JPanel {
 
     private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
         // TODO add your handling code here:
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
+        JButton[] botones = {BtnDependiente};
         String parametros[] = {};
         ResultSet datosE = crud.SelectCondition("exec DatosEmpleado", parametros);
         ftable.InsertarDatos(tablaEmp, datosE);
@@ -162,7 +165,7 @@ public class Empleado extends javax.swing.JPanel {
         String parametros[] = {buscar};
         switch (combo){
             case "Nombre" -> {
-                ResultSet datosN = crud.SelectCondition("exec BuscarEmpNombre @Nombre =??", parametros);
+                ResultSet datosN = crud.SelectCondition("exec BuscarEmpNombre @Nombre =?", parametros);
                 ftable.InsertarDatos(tablaEmp, datosN);
             }
             case "Apellido" -> {

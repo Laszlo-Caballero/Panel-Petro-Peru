@@ -26,7 +26,7 @@ public class ActEmpleado extends javax.swing.JPanel {
     public ActEmpleado() {
         initComponents();
         String parametros[] = {};
-        ResultSet datos = crud.SelectCondition("exec DatosActEmpleado", parametros);
+        ResultSet datos = crud.SelectCondition("exec DatosActEmp", parametros);
         JButton BtnDependiente = new JButton("Ver Dependiente");
         BtnDependiente.setName("btn1");
         JButton[] botones = {BtnDependiente};
@@ -58,7 +58,6 @@ public class ActEmpleado extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         txtEmailAE = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        comboViaAE = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         txtNomViaAE = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
@@ -66,7 +65,8 @@ public class ActEmpleado extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAE = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnActualizarE = new javax.swing.JButton();
+        comboViaAE = new javax.swing.JComboBox<>();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -161,9 +161,6 @@ public class ActEmpleado extends javax.swing.JPanel {
         jLabel18.setText("Tipo Via");
         bg.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, -1, 30));
 
-        comboViaAE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avenida", "Calle", "Pasaje" }));
-        bg.add(comboViaAE, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 170, 30));
-
         jLabel19.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(51, 51, 51));
         jLabel19.setText("Nombre");
@@ -214,13 +211,21 @@ public class ActEmpleado extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tablaAE);
 
-        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 840, 150));
+        bg.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 870, 150));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ActualizarLog.jpg"))); // NOI18N
         bg.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, -20, 190, 180));
 
-        jButton1.setText("ACTUALIZAR");
-        bg.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 100, 30));
+        btnActualizarE.setText("ACTUALIZAR");
+        btnActualizarE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarEActionPerformed(evt);
+            }
+        });
+        bg.add(btnActualizarE, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 100, 30));
+
+        comboViaAE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avenida", "Calle ", "Pasaje" }));
+        bg.add(comboViaAE, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 160, 30));
 
         add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 560));
     }// </editor-fold>//GEN-END:initComponents
@@ -257,6 +262,7 @@ public class ActEmpleado extends javax.swing.JPanel {
         // TODO add your handling code here:
         int i = tablaAE.getSelectedRow();
         TableModel modelo = tablaAE.getModel();
+        
         txtNombreAE.setText(modelo.getValueAt(i,0).toString());
         txtApellidoAE.setText(modelo.getValueAt(i,1).toString());
         txtDniAE.setText(modelo.getValueAt(i,2).toString());
@@ -268,7 +274,6 @@ public class ActEmpleado extends javax.swing.JPanel {
                 case "Avenida" -> comboViaAE.setSelectedIndex(0);
                 case "Calle" -> comboViaAE.setSelectedIndex(1);
                 case "Pasaje" -> comboViaAE.setSelectedIndex(2);
-                case "Ovalo" -> comboViaAE.setSelectedIndex(3);
             }
         String nombre;
         String num;
@@ -304,11 +309,30 @@ public class ActEmpleado extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tablaAEMouseClicked
 
+    private void btnActualizarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarEActionPerformed
+        // TODO add your handling code here:
+        String dni =txtDniAE.getText();
+        String email = txtEmailAE.getText();
+        String telefono = txtTelefonoAE.getText();
+        String via = comboViaAE.getSelectedItem().toString();
+        String nomVia = txtNomViaAE.getText();
+        String numero = txtNumeroAE.getText();
+        
+        String[] parametros = {dni, email, telefono, via, nomVia, numero};
+        crud.UICondition("exec ActualizarEmp @Dni =? , @Email = ? , @Telefono =?, @Via = ?, @Nombre = ? , @Numero = ?", parametros);
+        
+        String param[] = {};
+        ResultSet datos = crud.SelectCondition("exec DatosActEmp", param);
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        JButton[] botones = {BtnDependiente};
+        ftable.InsertarDatos(tablaAE, datos, botones);
+    }//GEN-LAST:event_btnActualizarEActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
+    private javax.swing.JButton btnActualizarE;
     private javax.swing.JComboBox<String> comboViaAE;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

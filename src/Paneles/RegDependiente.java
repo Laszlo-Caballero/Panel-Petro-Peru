@@ -4,6 +4,9 @@
  */
 package Paneles;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author LUCIANA
@@ -39,7 +42,7 @@ public class RegDependiente extends javax.swing.JFrame {
         btnNoDEP = new javax.swing.JRadioButton();
         txtNombreDEP = new javax.swing.JTextField();
         txtDniDEP = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dateNacimientoDep = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,15 +95,35 @@ public class RegDependiente extends javax.swing.JFrame {
         jPanel1.add(btnNoDEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 280, -1, -1));
         jPanel1.add(txtNombreDEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 190, 30));
         jPanel1.add(txtDniDEP, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 190, 30));
-        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 190, -1));
+        jPanel1.add(dateNacimientoDep, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 190, -1));
 
         jButton1.setText("REGISTRAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 110, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 370));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String nombre = txtNombreDEP.getText();
+        String dni = txtDniDEP.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = dateNacimientoDep.getDate();
+        String nacimiento = sdf.format(fecha);
+        String estudio = " ";
+        if(btnSiDEP.isSelected()){
+            estudio = "1";
+        } else{
+            estudio = "0";
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,9 +163,9 @@ public class RegDependiente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton btnNoDEP;
     private javax.swing.JRadioButton btnSiDEP;
+    private com.toedter.calendar.JDateChooser dateNacimientoDep;
     private javax.swing.ButtonGroup grupoDEP;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;

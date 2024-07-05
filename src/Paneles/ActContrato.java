@@ -22,7 +22,7 @@ public class ActContrato extends javax.swing.JPanel {
     FTable ftable = new FTable();
     public ActContrato() {
         initComponents();
-                String parametros[] = {};
+        String parametros[] = {};
         ResultSet datos = crud.SelectCondition("exec DatosActContrato", parametros);
         ftable.InsertarDatos(tablaAC, datos);
     }
@@ -55,6 +55,7 @@ public class ActContrato extends javax.swing.JPanel {
         txtSalarioAC = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablaAC = new javax.swing.JTable();
+        btnActualizarC = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -116,14 +117,14 @@ public class ActContrato extends javax.swing.JPanel {
         jLabel94.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel94.setForeground(new java.awt.Color(0, 0, 0));
         jLabel94.setText("Sede");
-        jPanel1.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, 30));
-        jPanel1.add(txtSedeAC, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 240, 140, -1));
+        jPanel1.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, -1, 30));
+        jPanel1.add(txtSedeAC, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, 140, -1));
 
         jLabel95.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel95.setForeground(new java.awt.Color(0, 0, 0));
         jLabel95.setText("Salario");
-        jPanel1.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, -1, 30));
-        jPanel1.add(txtSalarioAC, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 240, 140, -1));
+        jPanel1.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, -1, 30));
+        jPanel1.add(txtSalarioAC, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 240, 140, -1));
 
         tablaAC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +146,14 @@ public class ActContrato extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 870, 220));
 
+        btnActualizarC.setText("ACTUALIZAR");
+        btnActualizarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarCActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActualizarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 240, 110, 30));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 560));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,8 +169,24 @@ public class ActContrato extends javax.swing.JPanel {
         txtSalarioAC.setText(modelo.getValueAt(i,5).toString());
     }//GEN-LAST:event_tablaACMouseClicked
 
+    private void btnActualizarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarCActionPerformed
+        // TODO add your handling code here:
+        String dni = txtDniAC.getText();
+        String departamento = txtDepartamentoAC.getText();
+        String sede = txtSedeAC.getText();
+        String salario = txtSalarioAC.getText();
+        
+        String[] parametros = {dni, departamento, sede, salario};
+        crud.UICondition("exec ActualizarContrato @Dni =?, @Departamento =?, @Sede =?, @Salario =?", parametros);
+        
+        String p[] = {};
+        ResultSet datos = crud.SelectCondition("exec DatosActContrato", p);
+        ftable.InsertarDatos(tablaAC, datos);
+    }//GEN-LAST:event_btnActualizarCActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarC;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel86;

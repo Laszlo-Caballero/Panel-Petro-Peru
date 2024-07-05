@@ -9,6 +9,7 @@ import Funciones.FTable;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,7 +27,7 @@ public class Contratos extends javax.swing.JPanel {
     public Contratos() {
         initComponents();
         String parametros[] = {};
-        ResultSet datosC = crud.SelectCondition("exec DatosContratos", parametros);
+        ResultSet datosC = crud.SelectCondition("exec DatosCont", parametros);
         ftable.InsertarDatos(tablaC, datosC);
     }
 
@@ -56,12 +57,13 @@ public class Contratos extends javax.swing.JPanel {
         txtSedeC = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
         btnBuscarC = new javax.swing.JButton();
         jLabel96 = new javax.swing.JLabel();
         dateFechaInicioC = new com.toedter.calendar.JDateChooser();
         jLabel97 = new javax.swing.JLabel();
         dateFechaFin = new com.toedter.calendar.JDateChooser();
+        btnMostrar = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -78,6 +80,7 @@ public class Contratos extends javax.swing.JPanel {
         jPanel29.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
 
         jLabel51.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(51, 51, 51));
         jLabel51.setText("Dato");
         jPanel29.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, -1, 30));
         jPanel29.add(txtDatoC, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, 190, -1));
@@ -101,6 +104,7 @@ public class Contratos extends javax.swing.JPanel {
         jPanel29.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 870, 220));
 
         jLabel87.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel87.setForeground(new java.awt.Color(51, 51, 51));
         jLabel87.setText("Buscar por:");
         jPanel29.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, -1, 30));
 
@@ -125,7 +129,7 @@ public class Contratos extends javax.swing.JPanel {
                 btnSeleccionarCActionPerformed(evt);
             }
         });
-        jPanel29.add(btnSeleccionarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 280, 30));
+        jPanel29.add(btnSeleccionarC, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 180, 30));
         jPanel29.add(txtSalarioC, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, 140, -1));
         jPanel29.add(txtSedeC, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 140, -1));
 
@@ -140,13 +144,13 @@ public class Contratos extends javax.swing.JPanel {
 
         jPanel29.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 870, 40));
 
-        jButton2.setText("AGREGAR");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setText("AGREGAR");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
-        jPanel29.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 200, 90, 30));
+        jPanel29.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 200, 90, 30));
 
         btnBuscarC.setText("BUSCAR");
         btnBuscarC.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +171,14 @@ public class Contratos extends javax.swing.JPanel {
         jLabel97.setText("Fecha Inicio");
         jPanel29.add(jLabel97, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, -1, 30));
         jPanel29.add(dateFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 190, -1));
+
+        btnMostrar.setText("MOSTRAR");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+        jPanel29.add(btnMostrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 200, 90, 30));
 
         add(jPanel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 620));
     }// </editor-fold>//GEN-END:initComponents
@@ -206,25 +218,41 @@ public class Contratos extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnBuscarCActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         //falta las fechas xddd
-        Date FechaInicio = dateFechaInicioC.getDate();
-        Date FechaFin = dateFechaFin.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date Inicio = dateFechaInicioC.getDate();
+        Date Fin = dateFechaFin.getDate();
+        
+        String FechaInicio = sdf.format(Inicio);
+        String FechaFin = sdf.format(Fin);
         String Sede = txtSedeC.getText();
-        int Salario = Integer.parseInt(txtSalarioC.getText());
+        String Salario =txtSalarioC.getText();
         
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        String[] parametros = {FechaInicio, FechaFin, Sede, Salario};
+        crud.UICondition("exec AgregarContratoSA @FechaInicio = ?, @FechaFin = ?, @Sede = ?, @Salario = ?", parametros);
+        String param[] = {};
+        ResultSet datosC = crud.SelectCondition("exec DatosContratos", param);
+        ftable.InsertarDatos(tablaC, datosC);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // TODO add your handling code here:
+        String parametros[] = {};
+        ResultSet datosC = crud.SelectCondition("exec DatosContratos", parametros);
+        ftable.InsertarDatos(tablaC, datosC);
+    }//GEN-LAST:event_btnMostrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscarC;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSeleccionarC;
     private javax.swing.JComboBox<String> comboBuscarC;
     private com.toedter.calendar.JDateChooser dateFechaFin;
     private com.toedter.calendar.JDateChooser dateFechaInicioC;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel51;

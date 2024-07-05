@@ -38,7 +38,6 @@ public class Actualizar extends javax.swing.JPanel {
         bg = new javax.swing.JPanel();
         comboA = new javax.swing.JComboBox<>();
         btnSeleccionarAA = new javax.swing.JButton();
-        btnActualizarA = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -111,14 +110,6 @@ public class Actualizar extends javax.swing.JPanel {
         });
         jPanel17.add(btnSeleccionarAA, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, 120, 30));
 
-        btnActualizarA.setText("ACTUALIZAR");
-        btnActualizarA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarAActionPerformed(evt);
-            }
-        });
-        jPanel17.add(btnActualizarA, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 110, 30));
-
         add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -138,14 +129,9 @@ public class Actualizar extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSeleccionarAAActionPerformed
 
-    private void btnActualizarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarAActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JButton btnActualizarA;
     private javax.swing.JButton btnSeleccionarAA;
     private javax.swing.JComboBox<String> comboA;
     private javax.swing.JLabel jLabel11;

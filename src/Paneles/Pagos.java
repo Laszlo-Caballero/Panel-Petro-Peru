@@ -22,8 +22,8 @@ public class Pagos extends javax.swing.JPanel {
     public Pagos() {
         initComponents();
         String parametros[] = {};
-        ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
-        ftable.InsertarDatos(tablaPG, datosPG);
+        //ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
+        //ftable.InsertarDatos(tablaPG, datosPG);
     }
 
     /**
@@ -61,10 +61,12 @@ public class Pagos extends javax.swing.JPanel {
         tablaPG = new javax.swing.JTable();
         jLabel76 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
-        comboNomP = new javax.swing.JComboBox<>();
+        comboBuscarP = new javax.swing.JComboBox<>();
         txtDatoP = new javax.swing.JTextField();
         jLabel81 = new javax.swing.JLabel();
         jLabel83 = new javax.swing.JLabel();
+        btnBuscarP = new javax.swing.JButton();
+        btnMostrarPG = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -178,17 +180,17 @@ public class Pagos extends javax.swing.JPanel {
 
         tablaPG.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Dni", "Departamento", "Salario", "Beneficios", "Descuentos", "Total"
+                "Nombre", "Apellidos", "Dni", "Departamento", "Salario", "Beneficios", "Descuentos", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -197,7 +199,7 @@ public class Pagos extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tablaPG);
 
-        jPanel15.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 770, 180));
+        jPanel15.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 860, 200));
 
         jLabel76.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel76.setForeground(new java.awt.Color(204, 0, 51));
@@ -209,25 +211,41 @@ public class Pagos extends javax.swing.JPanel {
         jLabel79.setText("  Buscar por");
         jPanel15.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, 20));
 
-        comboNomP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni" }));
-        jPanel15.add(comboNomP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 150, 30));
+        comboBuscarP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido", "Dni" }));
+        jPanel15.add(comboBuscarP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 150, 30));
 
         txtDatoP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDatoPActionPerformed(evt);
             }
         });
-        jPanel15.add(txtDatoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 280, 220, 30));
+        jPanel15.add(txtDatoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 280, 220, 30));
 
         jLabel81.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel81.setForeground(new java.awt.Color(51, 51, 51));
         jLabel81.setText("Dato:");
-        jPanel15.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 280, -1, 30));
+        jPanel15.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 280, -1, 30));
 
         jLabel83.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel83.setForeground(new java.awt.Color(51, 51, 51));
         jLabel83.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/busqueda.png"))); // NOI18N
         jPanel15.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, -1, 30));
+
+        btnBuscarP.setText("BUSCAR");
+        btnBuscarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPActionPerformed(evt);
+            }
+        });
+        jPanel15.add(btnBuscarP, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 280, 80, 30));
+
+        btnMostrarPG.setText("MOSTRAR");
+        btnMostrarPG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarPGActionPerformed(evt);
+            }
+        });
+        jPanel15.add(btnMostrarPG, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 80, 30));
 
         add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 620));
     }// </editor-fold>//GEN-END:initComponents
@@ -236,9 +254,39 @@ public class Pagos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDatoPActionPerformed
 
+    private void btnBuscarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPActionPerformed
+        // TODO add your handling code here:
+        String combo = comboBuscarP.getSelectedItem().toString();
+        String buscar = txtDatoP.getText();
+        String parametro[] = {buscar};
+        switch (combo){
+            case "Nombre" -> {
+                ResultSet datosN = crud.SelectCondition("exec BuscarPagosNombre @Nombre =?", parametro);
+                ftable.InsertarDatos(tablaPG, datosN);
+            }
+            case "Apellido" -> {
+                ResultSet datosA = crud.SelectCondition("exec BuscarPagosApellido @Apellido = ?", parametro);
+                ftable.InsertarDatos(tablaPG, datosA);
+            }
+            case "Dni" -> {
+                ResultSet datosD = crud.SelectCondition("exec BuscarPagosDni @Dni = ?", parametro);
+                ftable.InsertarDatos(tablaPG, datosD);
+            }
+        }
+    }//GEN-LAST:event_btnBuscarPActionPerformed
+
+    private void btnMostrarPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarPGActionPerformed
+        // TODO add your handling code here:
+        String parametros[] = {};
+        ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
+        ftable.InsertarDatos(tablaPG, datosPG);
+    }//GEN-LAST:event_btnMostrarPGActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboNomP;
+    private javax.swing.JButton btnBuscarP;
+    private javax.swing.JButton btnMostrarPG;
+    private javax.swing.JComboBox<String> comboBuscarP;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;

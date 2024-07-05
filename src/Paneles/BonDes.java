@@ -20,8 +20,8 @@ public class BonDes extends javax.swing.JPanel {
     public BonDes() {
         initComponents();
         String parametros[] = {};
-        ResultSet datosBD = crud.SelectCondition("exec DatosBonDes", parametros);
-        ftable.InsertarDatos(tablaBonDes, datosBD);
+        //ResultSet datosBD = crud.SelectCondition("exec DatosBonDes", parametros);
+        //ftable.InsertarDatos(tablaBonDes, datosBD);
     }
 
     /**
@@ -41,7 +41,7 @@ public class BonDes extends javax.swing.JPanel {
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
         txtNombreBD = new javax.swing.JTextField();
-        txtApellidoBD = new javax.swing.JTextField();
+        txtDniBD = new javax.swing.JTextField();
         comboMotivoBD = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         radioNoBD = new javax.swing.JRadioButton();
@@ -87,7 +87,7 @@ public class BonDes extends javax.swing.JPanel {
 
         jLabel43.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel43.setText("Apellido");
+        jLabel43.setText("Dni");
         jPanel16.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, 30));
 
         txtNombreBD.addActionListener(new java.awt.event.ActionListener() {
@@ -97,12 +97,12 @@ public class BonDes extends javax.swing.JPanel {
         });
         jPanel16.add(txtNombreBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 220, 30));
 
-        txtApellidoBD.addActionListener(new java.awt.event.ActionListener() {
+        txtDniBD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApellidoBDActionPerformed(evt);
+                txtDniBDActionPerformed(evt);
             }
         });
-        jPanel16.add(txtApellidoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 220, 30));
+        jPanel16.add(txtDniBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 220, 30));
 
         comboMotivoBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Horas Extras", "Reparacion de Herramientas", "Limpieza General", "28 de Julio", "Navidad", "Asignacion Familiar", "Vacaciones", "Fallecimiento de algun familiar", "Enfermedad" }));
         jPanel16.add(comboMotivoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 180, 30));
@@ -276,9 +276,9 @@ public class BonDes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreBDActionPerformed
 
-    private void txtApellidoBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoBDActionPerformed
+    private void txtDniBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniBDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoBDActionPerformed
+    }//GEN-LAST:event_txtDniBDActionPerformed
 
     private void radioDesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioDesMouseClicked
         // TODO add your handling code here:
@@ -389,6 +389,15 @@ public class BonDes extends javax.swing.JPanel {
 
     private void bttnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAsignarActionPerformed
         // TODO add your handling code here:
+        String dni = txtDniBD.getText();
+        String motivo = comboMotivoBD.getSelectedItem().toString();
+        String[] parametros = {dni, motivo};
+        if(radioBon.isSelected()){
+            crud.UICondition("exec AsignarBonificacion @Dni = ?, @Motivo = ?", parametros);
+        }
+        else if (radioDes.isSelected()){
+            crud.UICondition("exec AsignarDescuento @Dni = ? , @Razon = ?", parametros);
+        }
     }//GEN-LAST:event_bttnAsignarActionPerformed
 
 
@@ -419,8 +428,8 @@ public class BonDes extends javax.swing.JPanel {
     private javax.swing.JRadioButton radioNoBD;
     private javax.swing.JRadioButton radioSiBD;
     private javax.swing.JTable tablaBonDes;
-    private javax.swing.JTextField txtApellidoBD;
     private javax.swing.JTextField txtDatoBD;
+    private javax.swing.JTextField txtDniBD;
     private javax.swing.JTextField txtNombreBD;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,8 +37,6 @@ public class Main extends javax.swing.JFrame {
     FPdf pdf = new FPdf("01310691");
     Login login;
     String ruta_archivo = "";
-    ActEmpleado pEmpleado = new ActEmpleado();
-    ActContrato pContrato = new ActContrato();
     Empleado pEmpelado = new Empleado();
     Contratos pContratos = new Contratos();
     BonDes pBonDes = new BonDes();
@@ -96,12 +94,12 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 60)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("l");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Dubai", 1, 30)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Grifo Paijan");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1370, 100));
 
@@ -129,7 +127,7 @@ public class Main extends javax.swing.JFrame {
                 btnRegistrosActionPerformed(evt);
             }
         });
-        jPanel5.add(btnRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 260, 70));
+        jPanel5.add(btnRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 260, 70));
 
         btnActualización.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         btnActualización.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,7 +140,7 @@ public class Main extends javax.swing.JFrame {
                 btnActualizaciónActionPerformed(evt);
             }
         });
-        jPanel5.add(btnActualización, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 260, 70));
+        jPanel5.add(btnActualización, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 260, 70));
 
         btnContratos.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         btnContratos.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +153,7 @@ public class Main extends javax.swing.JFrame {
                 btnContratosActionPerformed(evt);
             }
         });
-        jPanel5.add(btnContratos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 260, 70));
+        jPanel5.add(btnContratos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 260, 70));
 
         btnBon.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         btnBon.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,7 +177,7 @@ public class Main extends javax.swing.JFrame {
                 btnBonActionPerformed(evt);
             }
         });
-        jPanel5.add(btnBon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 260, 70));
+        jPanel5.add(btnBon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 260, 70));
 
         btnPagos.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         btnPagos.setForeground(new java.awt.Color(255, 255, 255));
@@ -192,7 +190,7 @@ public class Main extends javax.swing.JFrame {
                 btnPagosActionPerformed(evt);
             }
         });
-        jPanel5.add(btnPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 260, 70));
+        jPanel5.add(btnPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 260, 70));
 
         jPanel2.setBackground(new java.awt.Color(204, 0, 51));
 
@@ -246,7 +244,7 @@ public class Main extends javax.swing.JFrame {
 
     private void btnContratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContratosActionPerformed
         // TODO add your handling code here:
-        pages.ViewPages(pContrato, bg);
+        pages.ViewPages(pContratos, bg);
     }//GEN-LAST:event_btnContratosActionPerformed
 
     private void btnBonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBonMouseClicked
