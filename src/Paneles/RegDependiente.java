@@ -6,6 +6,9 @@ package Paneles;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import Clases.Dependiente;
 
 /**
  *
@@ -16,10 +19,34 @@ public class RegDependiente extends javax.swing.JFrame {
     /**
      * Creates new form RegDependiente
      */
-    public RegDependiente() {
+    private List<Dependiente> dependientes;
+    int row = -1;
+    public RegDependiente(List<Dependiente> _dependientes) {
+        initComponents();
+        dependientes = _dependientes;
+    }
+
+    public RegDependiente(){
         initComponents();
     }
 
+    
+    public RegDependiente(List<Dependiente> _dependientes, int _row) {
+        initComponents();
+        dependientes = _dependientes;
+        row = _row;
+        Dependiente cargar = dependientes.get(_row);
+        txtNombreDEP.setText(cargar.getNombre());
+        txtDniDEP.setText(cargar.getDni());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date fecha = formatter.parse(cargar.getNacimiento());
+            dateNacimientoDep.setDate(fecha);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,7 +127,11 @@ public class RegDependiente extends javax.swing.JFrame {
         jButton1.setText("REGISTRAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                if(row == -1){
+                    jButton1ActionPerformed(evt);
+                }else{
+                    Editar(evt);
+                }
             }
         });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 110, 30));
@@ -113,18 +144,40 @@ public class RegDependiente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String nombre = txtNombreDEP.getText();
+        txtNombreDEP.setText("");
         String dni = txtDniDEP.getText();
+        txtDniDEP.setText("");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date fecha = dateNacimientoDep.getDate();
+        dateNacimientoDep.setDate(null);
         String nacimiento = sdf.format(fecha);
         String estudio = " ";
+
         if(btnSiDEP.isSelected()){
             estudio = "1";
         } else{
             estudio = "0";
         }
+        Dependiente nuevo = new Dependiente(dni, nombre, nacimiento, estudio);
+        dependientes.add(nuevo);
     }//GEN-LAST:event_jButton1ActionPerformed
+    private void Editar(java.awt.event.ActionEvent evt){
+        dependientes.get(row).setNombre(txtNombreDEP.getText());
+        dependientes.get(row).setDni(txtDniDEP.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = dateNacimientoDep.getDate();
+        dateNacimientoDep.setDate(null);
+        String nacimiento = sdf.format(fecha);
+        dependientes.get(row).setNacimiento(nacimiento);
+        String estudio = " ";
 
+        if(btnSiDEP.isSelected()){
+            estudio = "1";
+        } else{
+            estudio = "0";
+        }
+        dependientes.get(row).setUniversidad(estudio);
+    }
     /**
      * @param args the command line arguments
      */

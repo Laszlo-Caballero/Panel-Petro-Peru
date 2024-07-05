@@ -3,21 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Login.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Contratos.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/BonDes.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Pagos.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Actualizar.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/ActContrato.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Funciones/FTable.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/RegDependiente.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Empleado.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/VerDependiente.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Funciones/Pages.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Database/Crud.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/ActEmpleado.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Paneles/Registro.java</file>
-            <file>file:/C:/Users/LUCIANA/Desktop/POO/Panel-Petro-Peru/src/Main.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Registro.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Actualizar.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Contratos.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Main.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/ActContrato.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/ActEmpleado.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/RegDependiente.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Empleado.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/Pagos.java</file>
+            <file>file:/D:/Universidad/Poo/Panel-Petro-Peru/src/Paneles/VerDependiente.java</file>
         </group>
     </open-files>
 </project-private>

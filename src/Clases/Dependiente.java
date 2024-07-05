@@ -14,9 +14,9 @@ public class Dependiente {
      private String nombre;
      private String dni;
      private String FechaNacimiento;
-     private Boolean universidad;
+     private String universidad;
 
-     public Dependiente(String _dni, String _nombre, String _fechaNacimiento, Boolean _universidad){
+     public Dependiente(String _dni, String _nombre, String _fechaNacimiento, String _universidad){
           this.dni = _dni;
           this.nombre = _nombre;
           this.FechaNacimiento = _fechaNacimiento;
@@ -31,7 +31,7 @@ public class Dependiente {
      public String getNacimiento(){
           return FechaNacimiento;
      }
-     public Boolean getUniversidad(){
+     public String getUniversidad(){
           return universidad;
      }
      public void setDni(String _dni){
@@ -43,7 +43,7 @@ public class Dependiente {
      public void setNacimiento(String fecha){
           this.FechaNacimiento = fecha;
      }
-     public void setUniversidad(Boolean _universidad){
+     public void setUniversidad(String _universidad){
           this.universidad = _universidad;
      }
      public Boolean CalcularEdad(LocalDate fecha){

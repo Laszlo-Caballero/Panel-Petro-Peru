@@ -25,5 +25,6 @@
     "package/slf4j-api-1.7.9.jar",
     "package/slf4j-log4j12-1.7.9.jar",
     "c:\\Program Files\\NetBeans-21\\netbeans\\java\\modules\\ext\\AbsoluteLayout.jar"
-  ]
+  ],
+  "java.debug.settings.onBuildFailureProceed": true
 }

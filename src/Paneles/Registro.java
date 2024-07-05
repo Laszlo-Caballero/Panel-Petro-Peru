@@ -4,14 +4,19 @@
  */
 package Paneles;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Clases.Dependiente;
+
 /**
  *
  * @author LUCIANA
  */
 public class Registro extends javax.swing.JPanel {
 
-     
-    RegDependiente pDependiente = new RegDependiente();
+    List<Dependiente> dependientes = new ArrayList<Dependiente>();
+    
     
     /**
      * Creates new form Registro
@@ -67,6 +72,7 @@ public class Registro extends javax.swing.JPanel {
         txtAfp = new javax.swing.JTextField();
         comboDepaRE = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
+        btnTablaDependiente = new javax.swing.JButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -299,6 +305,15 @@ public class Registro extends javax.swing.JPanel {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mañana", "Tarde", "Noche" }));
         jPanel14.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 480, 160, -1));
 
+        btnTablaDependiente.setText("Ver Dependientes");
+        btnTablaDependiente.setEnabled(false);
+        btnTablaDependiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTablaDependienteActionPerformed(evt);
+            }
+        });
+        jPanel14.add(btnTablaDependiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 260, 130, -1));
+
         add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 620));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -371,14 +386,23 @@ public class Registro extends javax.swing.JPanel {
 
     private void radioSiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioSiMouseClicked
         // TODO add your handling code here:
+        RegDependiente pDependiente = new RegDependiente(dependientes);
         pDependiente.setVisible(true);
+        btnTablaDependiente.setEnabled(true);
         pDependiente.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);   
     }//GEN-LAST:event_radioSiMouseClicked
+
+    private void btnTablaDependienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTablaDependienteActionPerformed
+        InsertarDependiente tablaDependeite = new InsertarDependiente(dependientes);
+        tablaDependeite.setVisible(true);
+        tablaDependeite.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_btnTablaDependienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CuentaSaldo;
     private javax.swing.JLabel CuentaSaldo1;
+    private javax.swing.JButton btnTablaDependiente;
     private javax.swing.JComboBox<String> comboDepaRE;
     private javax.swing.JComboBox<String> comboViaRE;
     private javax.swing.ButtonGroup grupoEmp;

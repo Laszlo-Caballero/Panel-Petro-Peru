@@ -22,8 +22,8 @@ public class Pagos extends javax.swing.JPanel {
     public Pagos() {
         initComponents();
         String parametros[] = {};
-        //ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
-        //ftable.InsertarDatos(tablaPG, datosPG);
+        ResultSet datosPG = crud.SelectCondition("exec DatosPagos", parametros);
+        ftable.InsertarDatos(tablaPG, datosPG);
     }
 
     /**
