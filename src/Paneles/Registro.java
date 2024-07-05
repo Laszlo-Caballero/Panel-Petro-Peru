@@ -4,10 +4,15 @@
  */
 package Paneles;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Clases.Dependiente;
+import Database.Crud;
 
 /**
  *
@@ -16,7 +21,7 @@ import Clases.Dependiente;
 public class Registro extends javax.swing.JPanel {
 
     List<Dependiente> dependientes = new ArrayList<Dependiente>();
-    
+    Crud crud = new Crud();
     
     /**
      * Creates new form Registro
@@ -73,6 +78,8 @@ public class Registro extends javax.swing.JPanel {
         comboDepaRE = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         btnTablaDependiente = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
+        fechaNacimiento = new com.toedter.calendar.JDateChooser();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -91,8 +98,8 @@ public class Registro extends javax.swing.JPanel {
 
         jLabel25.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel25.setText("Telefono");
-        jPanel14.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 190, -1, 30));
+        jLabel25.setText("Fecha Nacimiento");
+        jPanel14.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, 30));
 
         jLabel26.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(51, 51, 51));
@@ -312,7 +319,13 @@ public class Registro extends javax.swing.JPanel {
                 btnTablaDependienteActionPerformed(evt);
             }
         });
-        jPanel14.add(btnTablaDependiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 260, 130, -1));
+        jPanel14.add(btnTablaDependiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, 130, 30));
+
+        jLabel34.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel34.setText("Telefono");
+        jPanel14.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 190, -1, 30));
+        jPanel14.add(fechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 150, -1));
 
         add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 620));
     }// </editor-fold>//GEN-END:initComponents
@@ -372,6 +385,11 @@ public class Registro extends javax.swing.JPanel {
         String contraseña = dni;
         String correo = txtEmailRE.getText();
         String rol = "";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = fechaNacimiento.getDate();
+        fechaNacimiento.setDate(null);
+        String nacimiento = sdf.format(fecha);
         
         if (departamento == "Recursos Humanos"){
             rol = "admin";
@@ -381,7 +399,45 @@ public class Registro extends javax.swing.JPanel {
 
         String saldo = txtSaldo.getText();
         String afp = txtAfp.getText();
+
+        String consultaInsertarEmpleado = "exec AgregarEmp @Nombre = ?, @ApellidoPaterno =?,@ApellidoMaterno =?, @Dni =?, @Telefono =?, @FechaNacimiento =?,@TipoVia =?, @NombreD =?, @Numero =?, @NombreUsuario = ?, @contraseña = ?, @email =?, @rol =?, @CuentaSaldo =?, @CuentaAfp =?, @Departamento =?";
+        String[] pamametrosEmpleado = {nombre, paterno, materno, dni, telefono, nacimiento, via, nomVia, numero, nomUser, contraseña, correo, rol, saldo, afp, departamento};
         
+        String consultaDependiente = "exec RegistrarDep @Nombre = ?, @Dni = ?, @Nacimiento = ?, @Estudio = ?";
+        String[] vacio = {};
+        ResultSet ultimoDependiente = crud.SelectCondition("select top 1 IdDependiente from Dependiente ORDER BY IdDependiente DESC", vacio);
+        int ultDependiente = -1;
+        int consultas = -1;
+        int ultimoEmpleado = -1;
+        ResultSet UltimoEmpleado = crud.SelectCondition("select top 1 IdEmpleado from Empleado ORDER BY IdEmpleado DESC", vacio);
+
+        try {
+            while (ultimoDependiente.next()) {
+                ultDependiente = Integer.parseInt(ultimoDependiente.getObject(1).toString());
+            }
+            while (UltimoEmpleado.next()) {
+                ultimoEmpleado = Integer.parseInt(UltimoEmpleado.getObject(1).toString());
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        consultas = crud.UICondition(consultaInsertarEmpleado, pamametrosEmpleado);
+        if(dependientes.size() > 0){
+            for (Dependiente dato : dependientes) {
+                String[] parametrosDepndiente = {dato.getNombre(), dato.getDni(), dato.getNacimiento(), dato.getUniversidad()};
+                consultas = crud.UICondition(consultaDependiente, parametrosDepndiente);
+            }
+        }
+        
+        
+        for(int i = ultDependiente+1; i<= ultDependiente+dependientes.size(); i++){
+            String[] EmpleadoDependiente = {String.valueOf(i),String.valueOf((ultimoEmpleado+1))};
+            crud.UICondition("insert into AsignacionDependiente (IdDependiente, IdEmpleado) VALUES (?, ?)",EmpleadoDependiente );
+        }
+        
+
+        System.out.println("Se envio " + consultas);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void radioSiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_radioSiMouseClicked
@@ -405,6 +461,7 @@ public class Registro extends javax.swing.JPanel {
     private javax.swing.JButton btnTablaDependiente;
     private javax.swing.JComboBox<String> comboDepaRE;
     private javax.swing.JComboBox<String> comboViaRE;
+    private com.toedter.calendar.JDateChooser fechaNacimiento;
     private javax.swing.ButtonGroup grupoEmp;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -419,6 +476,7 @@ public class Registro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel38;
