@@ -155,7 +155,7 @@ public class Empleado extends javax.swing.JPanel {
         JButton[] botones = {BtnDependiente};
         String parametros[] = {};
         ResultSet datosE = crud.SelectCondition("exec DatosEmpleado", parametros);
-        ftable.InsertarDatos(tablaEmp, datosE);
+        ftable.InsertarDatos(tablaEmp, datosE, botones);
     }//GEN-LAST:event_btnMostrarActionPerformed
 
     private void btnBuscarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEActionPerformed
@@ -163,22 +163,25 @@ public class Empleado extends javax.swing.JPanel {
         String combo = comboBuscarE.getSelectedItem().toString();
         String buscar = txtDatoE.getText();
         String parametros[] = {buscar};
+        JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
+        JButton[] botones = {BtnDependiente};
         switch (combo){
             case "Nombre" -> {
                 ResultSet datosN = crud.SelectCondition("exec BuscarEmpNombre @Nombre =?", parametros);
-                ftable.InsertarDatos(tablaEmp, datosN);
+                ftable.InsertarDatos(tablaEmp, datosN, botones);
             }
             case "Apellido" -> {
                 ResultSet datosA = crud.SelectCondition("exec BuscarEmpApellido @Apellido = ?", parametros);
-                ftable.InsertarDatos(tablaEmp, datosA);
+                ftable.InsertarDatos(tablaEmp, datosA, botones);
             }
             case "Dni" -> {
                 ResultSet datosD = crud.SelectCondition("exec BuscarEmpDni @Dni = ?", parametros);
-                ftable.InsertarDatos(tablaEmp, datosD);
+                ftable.InsertarDatos(tablaEmp, datosD, botones);
             }
             case "Departamento" -> {
                 ResultSet datosDE = crud.SelectCondition("Select E.Nombre,E.ApellidoPaterno + E.ApellidoMaterno As 'Apellidos', E.Dni, E.Telefono, U.email, C.TipoVia + C.Nombre + CAST(C.Numero as varchar) AS 'Direccion', D.Nombre as 'Departamento' from Empleado E inner join Usuario U on U.IdUsuario = E.IdUsuario inner join Direccion C on C.IdDireccion = E.IdDireccion inner join Departamento D on D.IdDepartamento = E.IdDepartamento Where D.Nombre = ?", parametros);
-                ftable.InsertarDatos(tablaEmp, datosDE);
+                ftable.InsertarDatos(tablaEmp, datosDE, botones);
             }
         }
     }//GEN-LAST:event_btnBuscarEActionPerformed

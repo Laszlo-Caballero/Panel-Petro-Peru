@@ -324,6 +324,7 @@ public class ActEmpleado extends javax.swing.JPanel {
         String param[] = {};
         ResultSet datos = crud.SelectCondition("exec DatosActEmp", param);
         JButton BtnDependiente = new JButton("Ver Dependiente");
+        BtnDependiente.setName("btn1");
         JButton[] botones = {BtnDependiente};
         ftable.InsertarDatos(tablaAE, datos, botones);
     }//GEN-LAST:event_btnActualizarEActionPerformed

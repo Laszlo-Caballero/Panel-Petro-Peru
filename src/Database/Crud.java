@@ -79,6 +79,7 @@ public class Crud {
                 }
             }
             int resultado = statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Todo Salio Correctamente");
             return resultado;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());

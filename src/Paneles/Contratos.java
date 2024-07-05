@@ -8,6 +8,10 @@ import Database.Crud;
 import Funciones.FTable;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -230,8 +234,17 @@ public class Contratos extends javax.swing.JPanel {
         String Sede = txtSedeC.getText();
         String Salario =txtSalarioC.getText();
         
-        String[] parametros = {FechaInicio, FechaFin, Sede, Salario};
-        crud.UICondition("exec AgregarContratoSA @FechaInicio = ?, @FechaFin = ?, @Sede = ?, @Salario = ?", parametros);
+        Path path = Paths.get(ruta_archivo);
+        byte[] pdfBytes = null;
+        try {
+            pdfBytes = Files.readAllBytes(path);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+
+        String[] parametros = {FechaInicio, FechaFin, Sede, pdfBytes.toString(), Salario};
+        crud.UICondition("exec AgregarContrato @FechaInicio = ?, @FechaFin = ?, @Sede = ?, @Archivo = ? , @Salario = ?", parametros);
         String param[] = {};
         ResultSet datosC = crud.SelectCondition("exec DatosContratos", param);
         ftable.InsertarDatos(tablaC, datosC);
