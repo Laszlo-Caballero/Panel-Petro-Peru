@@ -42,7 +42,7 @@ public class BonDes extends javax.swing.JPanel {
         jLabel43 = new javax.swing.JLabel();
         txtNombreBD = new javax.swing.JTextField();
         txtApellidoBD = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboMotivoBD = new javax.swing.JComboBox<>();
         jLabel44 = new javax.swing.JLabel();
         radioNoBD = new javax.swing.JRadioButton();
         radioSiBD = new javax.swing.JRadioButton();
@@ -104,8 +104,8 @@ public class BonDes extends javax.swing.JPanel {
         });
         jPanel16.add(txtApellidoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 220, 30));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel16.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 180, 30));
+        comboMotivoBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Horas Extras", "Reparacion de Herramientas", "Limpieza General", "28 de Julio", "Navidad", "Asignacion Familiar", "Vacaciones", "Fallecimiento de algun familiar", "Enfermedad" }));
+        jPanel16.add(comboMotivoBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 180, 30));
 
         jLabel44.setFont(new java.awt.Font("Bahnschrift", 0, 16)); // NOI18N
         jLabel44.setForeground(new java.awt.Color(51, 51, 51));
@@ -285,6 +285,7 @@ public class BonDes extends javax.swing.JPanel {
         String parametros[] = {};
         ResultSet datosD = crud.SelectCondition("exec DatosDes", parametros);
         ftable.InsertarDatos(tablaBonDes, datosD);
+        actualizarDes();
     }//GEN-LAST:event_radioDesMouseClicked
 
     private void radioDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioDesActionPerformed
@@ -296,8 +297,36 @@ public class BonDes extends javax.swing.JPanel {
         String parametros[] = {};
         ResultSet datosB = crud.SelectCondition("exec DatosBonDes", parametros);
         ftable.InsertarDatos(tablaBonDes, datosB);
+        actualizarBon();
     }//GEN-LAST:event_radioBonMouseClicked
 
+    private void actualizarBon(){
+        comboMotivoBD.removeAllItems(); 
+        comboMotivoBD.addItem("Horas Extras");
+        comboMotivoBD.addItem("Reparacion de Herramientas");
+        comboMotivoBD.addItem("Limpieza General");
+        comboMotivoBD.addItem("28 de Julio");
+        comboMotivoBD.addItem("Navidad");
+        comboMotivoBD.addItem("Asignacion Familiar");
+        comboMotivoBD.addItem("Vacaciones");
+        comboMotivoBD.addItem("Fallecimiento de algun familiar");
+        comboMotivoBD.addItem("Enfermedad");
+    }
+    
+    private void actualizarDes(){
+        comboMotivoBD.removeAllItems(); 
+        comboMotivoBD.addItem("Afp Integra");
+        comboMotivoBD.addItem("Afp Prima");
+        comboMotivoBD.addItem("Afp Habitat");
+        comboMotivoBD.addItem("Mal uso de herramientas");
+        comboMotivoBD.addItem("Seguro Privado");
+        comboMotivoBD.addItem("Falta No Justificada");
+
+    }
+    
+    
+    
+    
     private void txtDatoBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDatoBDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDatoBDActionPerformed
@@ -368,8 +397,8 @@ public class BonDes extends javax.swing.JPanel {
     private javax.swing.JButton bttnAsignar;
     private javax.swing.JButton bttnBuscarBD;
     private javax.swing.JComboBox<String> comboBuscarBD;
+    private javax.swing.JComboBox<String> comboMotivoBD;
     private javax.swing.ButtonGroup grupoBD;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
